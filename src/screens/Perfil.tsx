@@ -41,11 +41,14 @@ export default function Perfil() {
 
       <VStack p={5}>
         <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={24}>
-          Historico:
+          Horários ativos:
         </Text>
 
-        <VStack mt={5}>
-          <CardHistorico />
+        <VStack mt={5} bg={"black"} justifyContent={"center"} p={2}>
+          <CardHistorico ativo />
+          <VStack mt={4}>
+            <CardHistorico />
+          </VStack>
         </VStack>
 
         <Text

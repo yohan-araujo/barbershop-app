@@ -43,8 +43,8 @@ export default function Agendamento({ navigation }) {
       try {
         const response = await api.get("/pro_profissionais");
         const proData = response.data;
+        console.log(response.data);
 
-        // Fetch user details for each professional
         const proDetails = await Promise.all(
           proData.map(async (pro: IProfissional) => {
             const userResponse = await api.get(`/usu_usuarios/${pro.usu_id}`);
