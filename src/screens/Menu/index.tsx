@@ -9,11 +9,11 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as Animatable from "react-native-animatable";
-import Home from "./Home";
-import Agendamento from "./Agendamento";
-import Galeria from "./Galeria";
-import Perfil from "./Perfil";
+import Agendamento from "../Agendamento";
+import Galeria from "../Galeria";
+import Perfil from "../Perfil";
 import { useFonts } from "expo-font";
+import Home from "../Home";
 
 const TabArr = [
   {
@@ -58,7 +58,7 @@ const TabButton = (props) => {
   const viewRef = useRef(null);
   const textViewRef = useRef(null);
   const [fontsCarregadas, fontsError] = useFonts({
-    NeohellenicBold: require("../assets/fonts/Neohellenic/GFSNeohellenic-Bold.ttf"),
+    NeohellenicBold: require("../../assets/fonts/Neohellenic/GFSNeohellenic-Bold.ttf"),
   });
 
   useEffect(() => {

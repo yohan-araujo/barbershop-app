@@ -1,4 +1,4 @@
-import { Input, IInputProps, Text } from "native-base";
+import { Input, IInputProps } from "native-base";
 
 interface InputProps extends IInputProps {
   placeholder?: string;

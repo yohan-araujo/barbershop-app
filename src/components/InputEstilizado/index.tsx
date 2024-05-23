@@ -8,8 +8,8 @@ interface InputProps extends IInputProps {
 
 export function InputEstilizado({ placeholder, tipo, ...rest }: InputProps) {
   const [fontsCarregadas, fontsError] = useFonts({
-    NeohellenicRegular: require("../assets/fonts/Neohellenic/GFSNeohellenic-Regular.ttf"),
-    NeohellenicBold: require("../assets/fonts/Neohellenic/GFSNeohellenic-Bold.ttf"),
+    NeohellenicRegular: require("../../assets/fonts/Neohellenic/GFSNeohellenic-Regular.ttf"),
+    NeohellenicBold: require("../../assets/fonts/Neohellenic/GFSNeohellenic-Bold.ttf"),
   });
   return (
     <>

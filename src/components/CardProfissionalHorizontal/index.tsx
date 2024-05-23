@@ -1,25 +1,25 @@
 import { useFonts } from "expo-font";
 import { Box, Image, Pressable, Text } from "native-base";
-import IServico from "../../@types/IServico";
+import IProfisisonal from "../../@types/IProfissional";
 
-interface CardServicoProps {
-  servico: IServico;
+interface ICardProfissionalProps {
+  profissional: IProfisisonal;
   onSelecionado?: (id: string) => void;
   estaSelecionado?: boolean;
 }
 
-export default function CardServico({
-  servico,
+export default function CardProfissionalHorizontal({
+  profissional,
   estaSelecionado,
   onSelecionado,
-}: CardServicoProps) {
+}: ICardProfissionalProps) {
   const [fontsCarregadas, fontsError] = useFonts({
     NeohellenicRegular: require("../../assets/fonts/Neohellenic/GFSNeohellenic-Regular.ttf"),
     NeohellenicBold: require("../../assets/fonts/Neohellenic/GFSNeohellenic-Bold.ttf"),
   });
 
   return (
-    <Pressable onPress={() => onSelecionado(servico.id)}>
+    <Pressable onPress={() => onSelecionado(profissional.id)}>
       <Box
         backgroundColor={"black"}
         h={175}
@@ -27,7 +27,7 @@ export default function CardServico({
         mt={4}
         borderRadius={"2xl"}
         justifyContent={"center"}
-        key={servico.id}
+        key={profissional.id}
         borderWidth={2}
         borderColor={estaSelecionado ? "#E29C31" : "black"}
       >
@@ -46,14 +46,14 @@ export default function CardServico({
             fontFamily={"NeohellenicBold"}
             fontSize={18}
           >
-            {servico.ser_tipo}
+            {profissional.usu_nomeCompleto}
           </Text>
           <Text
-            color={"white"}
+            color={"#E29C31"}
             textAlign={"center"}
-            fontFamily={"NeohellenicRegular"}
+            fontFamily={"NeohellenicBold"}
           >
-            Preço: R${servico.ser_preco.toFixed(2)}
+            Barbeiro
           </Text>
         </Box>
       </Box>

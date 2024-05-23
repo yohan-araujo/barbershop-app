@@ -1,7 +1,7 @@
 import IUsuario from "./IUsuario";
 
 export default interface IProfissional extends IUsuario {
-  pro_id: number;
+  id: string;
   pro_descricao: string;
-  usu_id: number;
+  usu_id: string;
 }

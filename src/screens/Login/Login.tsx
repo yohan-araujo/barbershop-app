@@ -1,22 +1,15 @@
-import {
-  Box,
-  Divider,
-  FormControl,
-  NativeBaseProvider,
-  Text,
-  VStack,
-} from "native-base";
-import bgLogin from "../assets/images/bgLogin.png";
+import { Box, Divider, FormControl, Text, VStack } from "native-base";
+import bgLogin from "../../assets/images/bgLogin.png";
 import { ImageBackground, TouchableOpacity, Dimensions } from "react-native";
-import { InputEstilizado } from "../components/InputEstilizado";
-import { ButtonEstilizado } from "../components/ButtonEstilizado";
+import { InputEstilizado } from "../../components/InputEstilizado";
+import { ButtonEstilizado } from "../../components/ButtonEstilizado";
 import { useFonts } from "expo-font";
 
 export default function Login({ navigation }) {
   const [fontsCarregadas, fontsError] = useFonts({
-    Amithen: require("../assets/fonts/Amithen/Amithen.otf"),
-    NeohellenicRegular: require("../assets/fonts/Neohellenic/GFSNeohellenic-Regular.ttf"),
-    NeohellenicBold: require("../assets/fonts/Neohellenic/GFSNeohellenic-Bold.ttf"),
+    Amithen: require("../../assets/fonts/Amithen/Amithen.otf"),
+    NeohellenicRegular: require("../../assets/fonts/Neohellenic/GFSNeohellenic-Regular.ttf"),
+    NeohellenicBold: require("../../assets/fonts/Neohellenic/GFSNeohellenic-Bold.ttf"),
   });
 
   if (!fontsCarregadas && !fontsError) {

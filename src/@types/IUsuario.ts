@@ -1,5 +1,5 @@
 export default interface IUsuario {
-  usu_id: number;
+  id: string;
   usu_nomeCompleto: string;
   usu_email: string;
   usu_senha: string;

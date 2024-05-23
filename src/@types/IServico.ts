@@ -1,5 +1,5 @@
 export default interface IServico {
-  ser_id: number;
+  id: string;
   ser_tipo: string;
   ser_preco: number;
 }

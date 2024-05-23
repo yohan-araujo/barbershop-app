@@ -1,6 +1,6 @@
 import { Avatar, Image, ScrollView, Text, VStack } from "native-base";
-import bgPerfil from "../assets/images/bgPerfil.png";
-import CardHistorico from "../components/CardHistorico";
+import bgPerfil from "../../assets/images/bgPerfil.png";
+import CardHistorico from "../../components/CardHistorico";
 
 export default function Perfil() {
   return (

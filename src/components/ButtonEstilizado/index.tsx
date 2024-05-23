@@ -16,8 +16,8 @@ export function ButtonEstilizado({
   ...rest
 }: IBotaoProps) {
   const [fontsCarregadas, fontsError] = useFonts({
-    NeohellenicRegular: require("../assets/fonts/Neohellenic/GFSNeohellenic-Regular.ttf"),
-    NeohellenicBold: require("../assets/fonts/Neohellenic/GFSNeohellenic-Bold.ttf"),
+    NeohellenicRegular: require("../../assets/fonts/Neohellenic/GFSNeohellenic-Regular.ttf"),
+    NeohellenicBold: require("../../assets/fonts/Neohellenic/GFSNeohellenic-Bold.ttf"),
   });
 
   return (
