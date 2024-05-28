@@ -28,10 +28,11 @@ export default function CardServico({
         borderRadius={"2xl"}
         justifyContent={"center"}
         key={servico.id}
-        borderWidth={2}
+        borderWidth={3}
         borderColor={estaSelecionado ? "#E29C31" : "black"}
       >
         <Image
+          mt={1}
           h={100}
           source={{ uri: "https://picsum.photos/150" }}
           borderTopLeftRadius={"2xl"}

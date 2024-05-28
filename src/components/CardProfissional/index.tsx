@@ -36,7 +36,7 @@ export default function CardProfissional({
         borderRadius={"2xl"}
         justifyContent={"center"}
         key={profissional.id}
-        borderWidth={2}
+        borderWidth={3}
         borderColor={estaSelecionado ? "#E29C31" : "black"}
       >
         <Center mb={5}>
@@ -50,7 +50,7 @@ export default function CardProfissional({
             borderColor={"#E29C31"}
           />
         </Center>
-        <VStack h={48} bg={"black"} top={6} borderBottomRadius={"2xl"}>
+        <VStack h={48} bg={"black"} top={5} borderBottomRadius={"xl"}>
           <Text
             color={"white"}
             textAlign={"center"}

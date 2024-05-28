@@ -18,6 +18,8 @@ import { useEffect, useState } from "react";
 import IServico from "../../@types/IServico";
 import IProfissional from "../../@types/IProfissional";
 import api from "../../components/API";
+import CardProfissionalHome from "../../components/CardProfissionalHome";
+import CardServicoHome from "../../components/CardServicoHome";
 
 export default function Home() {
   const [fontsCarregadas, fontsError] = useFonts({
@@ -103,7 +105,7 @@ export default function Home() {
       </Box>
 
       <VStack bg={"#E29C31"} mt={4} w={"24"} rounded={"full"}>
-        <Text fontSize={16} textAlign={"center"} fontFamily={"NeohellenicBold"}>
+        <Text fontSize={20} textAlign={"center"} fontFamily={"NeohellenicBold"}>
           Categorias
         </Text>
       </VStack>
@@ -119,7 +121,7 @@ export default function Home() {
 
       <Carrossel>
         {servicos.map((servico) => (
-          <CardServico key={servico.id} servico={servico} />
+          <CardServicoHome key={servico.id} servico={servico} />
         ))}
       </Carrossel>
 
@@ -135,7 +137,7 @@ export default function Home() {
       <Box h={96}>
         <Carrossel>
           {profissionais.map((profissional) => (
-            <CardProfissional
+            <CardProfissionalHome
               key={profissional.id}
               profissional={profissional}
             />

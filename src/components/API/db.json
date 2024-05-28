@@ -86,15 +86,6 @@
   ],
   "age_agendamentos": [
     {
-      "id": "1",
-      "cli_id": 1,
-      "pro_id": 1,
-      "ser_id": 1,
-      "age_data": "24-01-2024",
-      "age_hora": "12:00",
-      "age_status": false
-    },
-    {
       "id": "44e9",
       "cli_id": 1,
       "pro_id": "2",
@@ -110,6 +101,24 @@
       "ser_id": "1",
       "age_data": "25-05-2024",
       "age_hora": "10:00",
+      "age_status": false
+    },
+    {
+      "id": "6eca",
+      "cli_id": 1,
+      "pro_id": "3",
+      "ser_id": "2",
+      "age_data": "25-05-2024",
+      "age_hora": "16:30",
+      "age_status": false
+    },
+    {
+      "id": "2259",
+      "cli_id": 1,
+      "pro_id": "4",
+      "ser_id": "1",
+      "age_data": "25-05-2024",
+      "age_hora": "12:00",
       "age_status": false
     }
   ]

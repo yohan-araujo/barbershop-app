@@ -1,5 +1,6 @@
 import { useFonts } from "expo-font";
 import { Button, IButtonProps, Text } from "native-base";
+import { color } from "native-base/lib/typescript/theme/styled-system";
 
 interface IBotaoProps extends IButtonProps {
   texto: string;
@@ -27,7 +28,7 @@ export function ButtonEstilizado({
       borderRadius="3xl"
       {...rest}
       px={5}
-      _pressed={{ backgroundColor: "black", _text: { color: "white" } }}
+      _pressed={{ backgroundColor: "black" }}
     >
       <Text
         color={login ? "white" : "black"}
