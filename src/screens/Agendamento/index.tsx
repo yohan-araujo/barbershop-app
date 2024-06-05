@@ -8,6 +8,8 @@ import {
   ScrollView,
   Center,
   HStack,
+  Actionsheet,
+  useDisclose,
 } from "native-base";
 import api from "../../components/API";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -39,6 +41,7 @@ export default function Agendamento({ navigation }) {
     null
   );
   const [dataSelecionada, setDataSelecionada] = useState<string | null>(null);
+  const { isOpen, onOpen, onClose } = useDisclose();
 
   useEffect(() => {
     const fetchServicos = async () => {
@@ -316,10 +319,112 @@ export default function Agendamento({ navigation }) {
             </Carrossel>
           </Box>
           <Center mt={16} mb={32}>
-            <ButtonEstilizado texto="Agendar" onPress={agendar} />
+            <ButtonEstilizado texto="Agendar" onPress={onOpen} />
           </Center>
         </VStack>
       )}
+
+      <Actionsheet isOpen={isOpen} onClose={onClose}>
+        <Actionsheet.Content
+          bgColor={"#1d1d1d"}
+          borderWidth={2}
+          borderColor={"#E29C31"}
+          borderBottomWidth={0}
+          p={8}
+        >
+          <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={24}>
+            Confirme seu agendamento:{" "}
+          </Text>
+          <Actionsheet.Item bgColor={"#1d1d1d"}>
+            <Box>
+              <Text
+                color={"#E29C31"}
+                fontFamily={"NeohellenicBold"}
+                fontSize={21}
+              >
+                Dia e hora selecionados:{" "}
+              </Text>
+              <Text
+                color={"white"}
+                fontSize={18}
+                fontFamily={"NeohellenicRegular"}
+              >
+                {horarioSelecionado} - {dataSelecionada}
+              </Text>
+            </Box>
+          </Actionsheet.Item>
+
+          <Divider bgColor={"#E29C31"} w={"90%"} />
+          <Actionsheet.Item bgColor={"#1d1d1d"}>
+            <Box>
+              <Text
+                color={"#E29C31"}
+                fontFamily={"NeohellenicBold"}
+                fontSize={21}
+              >
+                Serviço selecionado:
+              </Text>
+              {servicoEscolhido && (
+                <Text
+                  color={"white"}
+                  fontSize={18}
+                  fontFamily={"NeohellenicRegular"}
+                >
+                  {servicoEscolhido.ser_tipo} - Preço: R$
+                  {servicoEscolhido.ser_preco.toFixed(2)}
+                </Text>
+              )}
+            </Box>
+          </Actionsheet.Item>
+
+          <Divider bgColor={"#E29C31"} w={"90%"} />
+          <Actionsheet.Item bgColor={"#1d1d1d"}>
+            <Box>
+              <Text
+                color={"#E29C31"}
+                fontFamily={"NeohellenicBold"}
+                fontSize={21}
+              >
+                Profissional selecionado:
+              </Text>
+              {profissionalEscolhido && (
+                <Text
+                  color={"white"}
+                  fontSize={18}
+                  fontFamily={"NeohellenicRegular"}
+                >
+                  {profissionalEscolhido.usu_nomeCompleto}
+                </Text>
+              )}
+            </Box>
+          </Actionsheet.Item>
+
+          <Divider bgColor={"#E29C31"} w={"90%"} />
+          <Actionsheet.Item bgColor={"#1d1d1d"}>
+            <Box>
+              <Text
+                color={"#E29C31"}
+                fontFamily={"NeohellenicBold"}
+                fontSize={21}
+              >
+                Local do estabelecimento:
+              </Text>
+              {servicoEscolhido && (
+                <Text
+                  color={"white"}
+                  fontSize={18}
+                  fontFamily={"NeohellenicRegular"}
+                >
+                  Rua: Benedito Morais N:110 Nova Guara
+                </Text>
+              )}
+            </Box>
+          </Actionsheet.Item>
+          <Divider bgColor={"#E29C31"} w={"90%"} />
+          <ButtonEstilizado texto="Confirmar" mt={6} onPress={agendar} />
+          <ButtonEstilizado texto="Voltar" mt={3} onPress={onClose} />
+        </Actionsheet.Content>
+      </Actionsheet>
     </ScrollView>
   );
 }
