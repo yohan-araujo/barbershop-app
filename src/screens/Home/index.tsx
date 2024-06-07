@@ -18,9 +18,10 @@ import Carrossel from "../../components/Carrosel";
 import { useEffect, useState } from "react";
 import IServico from "../../@types/IServico";
 import IProfissional from "../../@types/IProfissional";
-import api from "../../components/API";
+import { api } from "../../components/API";
 import CardProfissionalHome from "../../components/CardProfissionalHome";
 import CardServicoHome from "../../components/CardServicoHome";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home() {
   const [fontsCarregadas, fontsError] = useFonts({
@@ -29,6 +30,34 @@ export default function Home() {
   });
   const [servicos, setServicos] = useState<IServico[]>([]);
   const [profissionais, setProfissionais] = useState<IProfissional[]>([]);
+  const [nomeUsuario, setNomeUsuario] = useState("");
+  const [fotoUsuario, setFotoUsuario] = useState("");
+
+  useEffect(() => {
+    const fetchNomeUsuario = async () => {
+      try {
+        const nome = await AsyncStorage.getItem("usuarioNome");
+        setNomeUsuario(nome);
+      } catch (error) {
+        console.error("Erro ao obter o nome do cliente:", error);
+      }
+    };
+
+    fetchNomeUsuario();
+  }, []);
+
+  useEffect(() => {
+    const fetchFotoUsuario = async () => {
+      try {
+        const foto = await AsyncStorage.getItem("usuarioFoto");
+        setFotoUsuario(foto);
+      } catch (error) {
+        console.error("Erro ao obter a foto do cliente:", error);
+      }
+    };
+
+    fetchFotoUsuario();
+  }, []);
 
   useEffect(() => {
     const fetchServicos = async () => {
@@ -74,7 +103,7 @@ export default function Home() {
             Bem vindo de volta,
           </Text>
           <Text color={"#E29C31"} fontSize={20} fontFamily={"NeohellenicBold"}>
-            Yohan
+            {nomeUsuario}
             <Text color="white" fontSize={20} fontFamily={"NeohellenicRegular"}>
               !
             </Text>
@@ -82,10 +111,7 @@ export default function Home() {
         </Box>
         <Spacer />
         <Box>
-          <Avatar
-            source={{ uri: "https://github.com/yohan-araujo.png" }}
-            size={"lg"}
-          />
+          <Avatar source={{ uri: fotoUsuario }} size={"lg"} />
         </Box>
       </HStack>
 

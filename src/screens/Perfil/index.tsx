@@ -1,8 +1,38 @@
 import { Avatar, Image, ScrollView, Text, VStack } from "native-base";
 import bgPerfil from "../../assets/images/bgPerfil.png";
 import CardHistorico from "../../components/CardHistorico";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Perfil() {
+  const [nomeUsuario, setNomeUsuario] = useState("");
+  const [fotoUsuario, setFotoUsuario] = useState("");
+
+  useEffect(() => {
+    const fetchNomeUsuario = async () => {
+      try {
+        const nomeUsuario = await AsyncStorage.getItem("usuarioNome");
+        setNomeUsuario(nomeUsuario);
+      } catch (error) {
+        console.error("Erro ao obter o nome do cliente:", error);
+      }
+    };
+
+    fetchNomeUsuario();
+  }, []);
+
+  useEffect(() => {
+    const fetchFotoUsuario = async () => {
+      try {
+        const fotoUsuario = await AsyncStorage.getItem("usuarioFoto");
+        setFotoUsuario(fotoUsuario);
+      } catch (error) {
+        console.error("Erro ao obter a foto do cliente:", error);
+      }
+    };
+
+    fetchFotoUsuario();
+  }, []);
   return (
     <ScrollView flex={1} bg={"#1D1D1D"}>
       <Image
@@ -21,11 +51,7 @@ export default function Perfil() {
         alignItems={"center"}
       >
         <VStack position={"absolute"}>
-          <Avatar
-            source={{ uri: "https://github.com/yohan-araujo.png" }}
-            size={"2xl"}
-            bottom={12}
-          />
+          <Avatar source={{ uri: fotoUsuario }} size={"2xl"} bottom={12} />
         </VStack>
       </VStack>
       <VStack justifyContent={"center"} alignItems={"center"} mt={8}>
@@ -34,8 +60,9 @@ export default function Perfil() {
           fontSize={32}
           textTransform={"uppercase"}
           fontFamily={"NeohellenicBold"}
+          textAlign={"center"}
         >
-          Yohan Neves
+          {nomeUsuario}
         </Text>
       </VStack>
 

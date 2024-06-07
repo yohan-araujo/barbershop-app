@@ -11,7 +11,7 @@ import {
 import { TouchableOpacity } from "react-native";
 import { InputOutline } from "../../components/InputOutline";
 import { ButtonEstilizado } from "../../components/ButtonEstilizado";
-import api from "../../components/API";
+import { api } from "../../components/API";
 
 export default function Cadastro({ navigation }) {
   const [usu_nomeCompleto, setUsu_nomeCompleto] = useState("");

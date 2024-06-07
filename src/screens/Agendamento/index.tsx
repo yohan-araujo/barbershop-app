@@ -11,7 +11,7 @@ import {
   Actionsheet,
   useDisclose,
 } from "native-base";
-import api from "../../components/API";
+import { api } from "../../components/API";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
@@ -26,6 +26,7 @@ import HorarioSelecionavel from "../../components/HorarioSelecionavel";
 import horarios from "../../assets/jsons/horarios.json";
 import Calendario from "../../components/Calendario";
 import { format } from "date-fns";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Agendamento({ navigation }) {
   const [numSecao, setNumSecao] = useState(0);
@@ -41,7 +42,22 @@ export default function Agendamento({ navigation }) {
     null
   );
   const [dataSelecionada, setDataSelecionada] = useState<string | null>(null);
+  const [idCliente, setIdCliente] = useState("");
+
   const { isOpen, onOpen, onClose } = useDisclose();
+
+  useEffect(() => {
+    const fetchIdCliente = async () => {
+      try {
+        const nome = await AsyncStorage.getItem("clienteId");
+        setIdCliente(nome);
+      } catch (error) {
+        console.error("Erro ao obter o id do cliente:", error);
+      }
+    };
+
+    fetchIdCliente();
+  }, []);
 
   useEffect(() => {
     const fetchServicos = async () => {
@@ -119,7 +135,7 @@ export default function Agendamento({ navigation }) {
 
   const agendar = async () => {
     const agendamento = {
-      cli_id: 1,
+      cli_id: idCliente,
       pro_id: profissionalSelecionado,
       ser_id: servicoSelecionado,
       age_data: dataSelecionada,
