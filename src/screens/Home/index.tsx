@@ -8,11 +8,12 @@ import {
   ScrollView,
   Image,
   Row,
+  FlatList,
+  Wrap,
+  HStack,
 } from "native-base";
 import imgCarrosel from "../../assets/images/imgCarroselHome.png";
 import { useFonts } from "expo-font";
-import CardServico from "../../components/CardServico";
-import CardProfissional from "../../components/CardProfissional";
 import Carrossel from "../../components/Carrosel";
 import { useEffect, useState } from "react";
 import IServico from "../../@types/IServico";
@@ -67,7 +68,7 @@ export default function Home() {
 
   return (
     <ScrollView flex={1} p={5} backgroundColor={"#1D1D1D"}>
-      <VStack flexDirection={"row"}>
+      <HStack>
         <Box>
           <Text color="white" fontSize={20} fontFamily={"NeohellenicRegular"}>
             Bem vindo de volta,
@@ -86,7 +87,7 @@ export default function Home() {
             size={"lg"}
           />
         </Box>
-      </VStack>
+      </HStack>
 
       <Divider mt={15} />
       <Box
@@ -119,11 +120,21 @@ export default function Home() {
         Serviços
       </Text>
 
-      <Carrossel>
-        {servicos.map((servico) => (
-          <CardServicoHome key={servico.id} servico={servico} />
-        ))}
-      </Carrossel>
+      <Box justifyContent={"center"} alignItems={"center"}>
+        <Box
+          flexDirection={"row"}
+          flexWrap={"wrap"}
+          justifyItems={"space-between"}
+          mx={-2}
+          mt={12}
+        >
+          {servicos.map((servico) => (
+            <Box key={servico.id} mx={4} my={6}>
+              <CardServicoHome servico={servico} />
+            </Box>
+          ))}
+        </Box>
+      </Box>
 
       <Text
         color={"#E29C31"}

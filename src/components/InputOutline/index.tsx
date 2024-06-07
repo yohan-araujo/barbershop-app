@@ -18,6 +18,7 @@ export function InputOutline({ placeholder, tipo, ...rest }: InputProps) {
         rounded={"full"}
         color={"white"}
         type={tipo}
+        fontFamily={"NeohellenicRegular"}
         {...rest}
       />
     </>
