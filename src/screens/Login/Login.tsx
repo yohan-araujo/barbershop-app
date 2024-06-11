@@ -16,6 +16,7 @@ export default function Login({ navigation }) {
   });
   const [usu_email, setUsu_email] = useState("");
   const [usu_senha, setUsu_senha] = useState("");
+  const [usu_tipo, setUsu_tipo] = useState("");
 
   const handleLogin = async () => {
     try {

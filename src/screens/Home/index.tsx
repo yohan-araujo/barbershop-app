@@ -94,6 +94,8 @@ export default function Home() {
 
     fetchProfissionais();
   }, []);
+  console.log(nomeUsuario);
+  console.log(fotoUsuario);
 
   return (
     <ScrollView flex={1} p={5} backgroundColor={"#1D1D1D"}>
