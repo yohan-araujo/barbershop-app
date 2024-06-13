@@ -16,7 +16,6 @@ export default function Login({ navigation }) {
   });
   const [usu_email, setUsu_email] = useState("");
   const [usu_senha, setUsu_senha] = useState("");
-  const [usu_tipo, setUsu_tipo] = useState("");
 
   const handleLogin = async () => {
     try {
@@ -29,24 +28,41 @@ export default function Login({ navigation }) {
       );
 
       if (usuarioEncontrado) {
-        const clientesResponse = await api.get(
-          `/cli_clientes?usu_id=${usuarioEncontrado.id}`
-        );
-        const clientes = clientesResponse.data;
+        const { id, usu_nomeCompleto, usu_foto, usu_tipo } = usuarioEncontrado;
+        console.log(usu_tipo);
 
-        if (clientes.length > 0) {
-          const cliente = clientes[0];
+        await AsyncStorage.setItem("usuarioNome", usu_nomeCompleto);
+        await AsyncStorage.setItem("usuarioFoto", usu_foto);
+        await AsyncStorage.setItem("usuarioTipo", usu_tipo);
 
-          navigation.navigate("Tabs");
+        if (usu_tipo === "C") {
+          const clientesResponse = await api.get(`/cli_clientes?usu_id=${id}`);
+          const clientes = clientesResponse.data;
 
-          await AsyncStorage.setItem("clienteId", cliente.id);
-          await AsyncStorage.setItem(
-            "usuarioNome",
-            usuarioEncontrado.usu_nomeCompleto
+          if (clientes.length > 0) {
+            const cliente = clientes[0];
+
+            await AsyncStorage.setItem("clienteId", cliente.id);
+            navigation.navigate("Tabs");
+          } else {
+            console.log("Cliente não encontrado.");
+          }
+        } else if (usu_tipo === "P") {
+          const profissionaisResponse = await api.get(
+            `/pro_profissionais?usu_id=${id}`
           );
-          await AsyncStorage.setItem("usuarioFoto", usuarioEncontrado.usu_foto);
+          const profissionais = profissionaisResponse.data;
+
+          if (profissionais.length > 0) {
+            const profissional = profissionais[0];
+
+            await AsyncStorage.setItem("profissionalId", profissional.id);
+            navigation.navigate("Tabs");
+          } else {
+            console.log("Profissional não encontrado.");
+          }
         } else {
-          console.log("Cliente não encontrado.");
+          console.log("Tipo de usuário inválido.");
         }
       } else {
         console.log("Credenciais inválidas. Por favor, tente novamente.");

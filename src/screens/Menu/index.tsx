@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,6 +14,8 @@ import Galeria from "../Galeria";
 import Perfil from "../Perfil";
 import { useFonts } from "expo-font";
 import Home from "../Home";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ConfAgendamento from "../ConfAgendamento";
 
 const TabArr = [
   {
@@ -27,8 +29,42 @@ const TabArr = [
   {
     route: "Agendamento",
     label: "Agendar",
-    icon: "calendar",
+    icon: "calendar-number",
     component: Agendamento,
+    color: "#E29C31",
+    alphaClr: "black",
+  },
+  {
+    route: "Galeria",
+    label: "Galeria",
+    icon: "image",
+    component: Galeria,
+    color: "#E29C31",
+    alphaClr: "black",
+  },
+  {
+    route: "Perfil",
+    label: "Perfil",
+    icon: "person",
+    component: Perfil,
+    color: "#E29C31",
+    alphaClr: "black",
+  },
+];
+const TabArrProf = [
+  {
+    route: "Home",
+    label: "Home",
+    icon: "home",
+    component: Home,
+    color: "#E29C31",
+    alphaClr: "black",
+  },
+  {
+    route: "ConfAgendamento",
+    label: "Confirmar",
+    icon: "checkbox",
+    component: ConfAgendamento,
     color: "#E29C31",
     alphaClr: "black",
   },
@@ -128,6 +164,23 @@ const TabButton = (props) => {
 };
 
 export default function Menu() {
+  const [tipoUsuario, setTipoUsuario] = useState("");
+
+  useEffect(() => {
+    const fetchTipoUsuario = async () => {
+      try {
+        const tipoUsuario = await AsyncStorage.getItem("usuarioTipo");
+        setTipoUsuario(tipoUsuario);
+      } catch (error) {
+        console.error("Erro ao obter a tipo do usuario:", error);
+      }
+    };
+
+    fetchTipoUsuario();
+  }, []);
+
+  const tabs = tipoUsuario === "P" ? TabArrProf : TabArr;
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Tab.Navigator
@@ -144,7 +197,7 @@ export default function Menu() {
           },
         }}
       >
-        {TabArr.map((item, index) => {
+        {tabs.map((item, index) => {
           return (
             <Tab.Screen
               key={index}

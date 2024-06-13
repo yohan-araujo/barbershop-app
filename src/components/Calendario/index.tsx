@@ -6,7 +6,7 @@ import { eachDayOfInterval, isSunday } from "date-fns";
 import BotaoPaginacao from "./BotaoPaginacao";
 
 interface CalendarioProps {
-  onDataChange: (data: Date) => void;
+  onDataChange?: (data: Date) => void;
 }
 
 const desabilitarDomingos = (dataInicio: Date, dataTermino: Date): Date[] => {

@@ -1,12 +1,22 @@
-import { Avatar, Image, ScrollView, Text, VStack } from "native-base";
+import {
+  Avatar,
+  Box,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  VStack,
+} from "native-base";
 import bgPerfil from "../../assets/images/bgPerfil.png";
 import CardHistorico from "../../components/CardHistorico";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Calendario from "../../components/Calendario";
 
-export default function Perfil() {
+export default function Perfil({ navigation }) {
   const [nomeUsuario, setNomeUsuario] = useState("");
   const [fotoUsuario, setFotoUsuario] = useState("");
+  const [tipoUsuario, setTipoUsuario] = useState("");
 
   useEffect(() => {
     const fetchNomeUsuario = async () => {
@@ -32,6 +42,19 @@ export default function Perfil() {
     };
 
     fetchFotoUsuario();
+  }, []);
+
+  useEffect(() => {
+    const fetchTipoUsuario = async () => {
+      try {
+        const tipoUsuario = await AsyncStorage.getItem("usuarioTipo");
+        setTipoUsuario(tipoUsuario);
+      } catch (error) {
+        console.error("Erro ao obter a tipo do usuario:", error);
+      }
+    };
+
+    fetchTipoUsuario();
   }, []);
   return (
     <ScrollView flex={1} bg={"#1D1D1D"}>
@@ -66,30 +89,41 @@ export default function Perfil() {
         </Text>
       </VStack>
 
-      <VStack p={5}>
-        <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={24}>
-          Horários ativos:
-        </Text>
+      {tipoUsuario === "C" ? (
+        <VStack p={5}>
+          <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={24}>
+            Horários ativos:
+          </Text>
 
-        <VStack mt={5} bg={"black"} justifyContent={"center"} p={2}>
-          <CardHistorico ativo />
-          <VStack mt={4}>
-            <CardHistorico />
+          <VStack mt={5} bg={"black"} justifyContent={"center"} p={2}>
+            <CardHistorico ativo />
+            <VStack mt={4}>
+              <CardHistorico />
+            </VStack>
           </VStack>
-        </VStack>
 
-        <Text
-          color={"white"}
-          fontFamily={"NeohellenicRegular"}
-          fontSize={16}
-          textAlign={"right"}
-          mt={4}
-          mr={6}
-          underline
-        >
-          Ver mais..
-        </Text>
-      </VStack>
+          <Text
+            color={"white"}
+            fontFamily={"NeohellenicRegular"}
+            fontSize={16}
+            textAlign={"right"}
+            mt={4}
+            mr={6}
+            underline
+          >
+            Ver mais..
+          </Text>
+        </VStack>
+      ) : (
+        <VStack p={5}>
+          <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={24}>
+            Agenda
+          </Text>
+          <Box mt={4}>
+            <Calendario />
+          </Box>
+        </VStack>
+      )}
     </ScrollView>
   );
 }
