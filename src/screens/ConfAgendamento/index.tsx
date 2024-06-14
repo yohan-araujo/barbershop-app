@@ -10,6 +10,7 @@ import { api } from "../../components/API";
 import Checkbox from "../../components/Checkbox";
 import CardAgendamento from "../../components/CardAgendamento";
 import { ButtonEstilizado } from "../../components/ButtonEstilizado";
+import MensagemFeedback from "../../components/MensagemFeedback";
 
 export default function ConfAgendamento() {
   const [profissionalId, setProId] = useState<string>("");
@@ -21,6 +22,11 @@ export default function ConfAgendamento() {
     []
   );
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [mostrarFeedback, setMostrarFeedback] = useState(false);
+  const [tipoFeedback, setTipoFeedback] = useState<"sucesso" | "erro">(
+    "sucesso"
+  );
+  const [mensagemFeedback, setMensagemFeedback] = useState("");
 
   useEffect(() => {
     const fetchProId = async () => {
@@ -96,10 +102,15 @@ export default function ConfAgendamento() {
             : agendamento
         )
       );
-
+      setTipoFeedback("sucesso");
+      setMensagemFeedback("Agendamento confirmado com sucesso!");
+      setMostrarFeedback(true);
       setSelectedAgendamentos([]);
     } catch (error) {
       console.error("Erro ao confirmar agendamentos:", error);
+      setTipoFeedback("erro");
+      setMensagemFeedback("Erro ao confirmar agendamentos, tente novamente.");
+      setMostrarFeedback(true);
     }
   };
 
@@ -107,7 +118,7 @@ export default function ConfAgendamento() {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
-    const formattedDate = `${day}-${month}-${year}`; // Converte a data para o formato DD-MM-YYYY
+    const formattedDate = `${day}-${month}-${year}`;
     setSelectedDate(formattedDate);
   };
 
@@ -187,6 +198,15 @@ export default function ConfAgendamento() {
           <ButtonEstilizado texto="Confirmar" onPress={confirmarAgendamentos} />
         </Box>
       </VStack>
+
+      {mostrarFeedback && (
+        <MensagemFeedback
+          tipo={tipoFeedback}
+          mensagem={mensagemFeedback}
+          isOpen={mostrarFeedback}
+          onClose={() => setMostrarFeedback(false)}
+        />
+      )}
     </ScrollView>
   );
 }

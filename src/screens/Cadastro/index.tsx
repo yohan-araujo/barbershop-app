@@ -12,6 +12,7 @@ import { TouchableOpacity } from "react-native";
 import { InputOutline } from "../../components/InputOutline";
 import { ButtonEstilizado } from "../../components/ButtonEstilizado";
 import { api } from "../../components/API";
+import MensagemFeedback from "../../components/MensagemFeedback";
 
 export default function Cadastro({ navigation }) {
   const [usu_nomeCompleto, setUsu_nomeCompleto] = useState("");
@@ -19,8 +20,21 @@ export default function Cadastro({ navigation }) {
   const [usu_foto, setUsu_foto] = useState("");
   const [cli_telefone, setCli_telefone] = useState("");
   const [usu_senha, setUsu_senha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [mostrarFeedback, setMostrarFeedback] = useState(false);
+  const [tipoFeedback, setTipoFeedback] = useState<"sucesso" | "erro">(
+    "sucesso"
+  );
+  const [mensagemFeedback, setMensagemFeedback] = useState("");
 
   const handleCadastro = async () => {
+    if (usu_senha !== confirmarSenha) {
+      setTipoFeedback("erro");
+      setMensagemFeedback("As senhas não coincidem.");
+      setMostrarFeedback(true);
+      return;
+    }
+
     const novoUsuario = {
       usu_nomeCompleto: usu_nomeCompleto,
       usu_email: usu_email,
@@ -33,8 +47,6 @@ export default function Cadastro({ navigation }) {
       const usuarioResponse = await api.post("/usu_usuarios", novoUsuario);
 
       if (usuarioResponse.status === 201) {
-        console.log("Usuário cadastrado com sucesso!");
-
         const usuarioData = await usuarioResponse.data;
 
         const novoCliente = {
@@ -44,17 +56,26 @@ export default function Cadastro({ navigation }) {
 
         const clienteResponse = await api.post("/cli_clientes", novoCliente);
 
-        if (clienteResponse.status !== 201) {
+        if (clienteResponse.status === 201) {
+          // Define a mensagem de sucesso
+          setTipoFeedback("sucesso");
+          setMensagemFeedback("Cadastro realizado com sucesso.");
+          setMostrarFeedback(true);
+
+          navigation.navigate("Login");
+        } else {
           throw new Error("Erro ao cadastrar cliente");
         }
-        console.log("Cadastro realizado com sucesso!");
-        navigation.navigate("Login");
       } else {
         console.error("Erro ao cadastrar usuário: ", usuarioResponse.data);
+        throw new Error("Erro ao cadastrar usuário");
       }
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
-      alert("Erro ao cadastrar, tente novamente.");
+      // Define a mensagem de erro
+      setTipoFeedback("erro");
+      setMensagemFeedback("Erro ao cadastrar, tente novamente.");
+      setMostrarFeedback(true);
     }
   };
 
@@ -93,33 +114,12 @@ export default function Cadastro({ navigation }) {
             onChangeText={setUsu_email}
           />
         </Box>
-        {/* <Box mt={4}>
-          <Text color={"white"} fontSize={16} fontFamily={"NeohellenicBold"}>
-            Foto de perfil
-          </Text>
-          <Text color={"gray.500"} fontFamily={"NeohellenicBold"}>
-            Envie um arquivo do seu dispositivo
-          </Text>
-          <Box flexDirection={"row"} mt={2}>
-            <Avatar
-              size={"xl"}
-              source={{
-                uri: usu_foto || "https://github.com/yohan-araujo.png",
-              }}
-              borderWidth={1}
-              borderColor={"#E29C31"}
-              mt={3}
-            />
-            <Spacer />
-            <ButtonEstilizado texto="Enviar" mt={10} h={12} />
-          </Box>
-        </Box> */}
         <Box mt={4}>
           <Text color={"white"} fontSize={16} fontFamily={"NeohellenicBold"}>
             URL da foto
           </Text>
           <InputOutline
-            placeholder="url da foto aqui"
+            placeholder="URL da foto aqui"
             mt={3}
             value={usu_foto}
             onChangeText={setUsu_foto}
@@ -130,7 +130,7 @@ export default function Cadastro({ navigation }) {
             Telefone
           </Text>
           <InputOutline
-            placeholder="(00)00000-0000"
+            placeholder="(00) 00000-0000"
             mt={3}
             value={cli_telefone}
             onChangeText={setCli_telefone}
@@ -146,6 +146,18 @@ export default function Cadastro({ navigation }) {
             tipo="password"
             value={usu_senha}
             onChangeText={setUsu_senha}
+          />
+        </Box>
+        <Box mt={4}>
+          <Text color={"white"} fontSize={16} fontFamily={"NeohellenicBold"}>
+            Confirmar Senha
+          </Text>
+          <InputOutline
+            placeholder="Confirme sua senha..."
+            mt={3}
+            tipo="password"
+            value={confirmarSenha}
+            onChangeText={setConfirmarSenha}
           />
         </Box>
       </FormControl>
@@ -177,6 +189,15 @@ export default function Cadastro({ navigation }) {
           </Text>
         </TouchableOpacity>
       </Box>
+
+      {mostrarFeedback && (
+        <MensagemFeedback
+          tipo={tipoFeedback}
+          mensagem={mensagemFeedback}
+          isOpen={mostrarFeedback}
+          onClose={() => setMostrarFeedback(false)}
+        />
+      )}
     </ScrollView>
   );
 }

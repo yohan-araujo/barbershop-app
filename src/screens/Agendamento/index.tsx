@@ -27,6 +27,7 @@ import horarios from "../../assets/jsons/horarios.json";
 import Calendario from "../../components/Calendario";
 import { format } from "date-fns";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MensagemFeedback from "../../components/MensagemFeedback";
 
 export default function Agendamento({ navigation }) {
   const [numSecao, setNumSecao] = useState(0);
@@ -43,6 +44,11 @@ export default function Agendamento({ navigation }) {
   );
   const [dataSelecionada, setDataSelecionada] = useState<string | null>(null);
   const [idCliente, setIdCliente] = useState("");
+  const [mostrarFeedback, setMostrarFeedback] = useState(false); // Estado para controlar a exibição da mensagem
+  const [tipoFeedback, setTipoFeedback] = useState<"sucesso" | "erro">(
+    "sucesso"
+  );
+  const [mensagemFeedback, setMensagemFeedback] = useState("");
 
   const { isOpen, onOpen, onClose } = useDisclose();
 
@@ -95,8 +101,18 @@ export default function Agendamento({ navigation }) {
   }, []);
 
   const avancarSecao = () => {
+    if (!servicoSelecionado || !profissionalSelecionado) {
+      setTipoFeedback("erro");
+      setMensagemFeedback(
+        "Erro ao avançar. Selecione o profissional e o serviço!"
+      );
+      setMostrarFeedback(true);
+      return;
+    }
+
     setNumSecao(numSecao + 1);
   };
+
   const voltarSecao = () => {
     if (numSecao > 0) {
       setNumSecao(numSecao - 1);
@@ -134,6 +150,10 @@ export default function Agendamento({ navigation }) {
   };
 
   const agendar = async () => {
+    if (!horarioSelecionado || !dataSelecionada) {
+      setMensagemFeedback("Selecione um horário e uma data para prosseguir.");
+      return;
+    }
     const agendamento = {
       cli_id: idCliente,
       pro_id: profissionalSelecionado,
@@ -148,11 +168,20 @@ export default function Agendamento({ navigation }) {
 
       if (response.status === 201) {
         console.log("Agendamento realizado com sucesso!");
+        setTipoFeedback("sucesso");
+        setMensagemFeedback("Agendamento realizado com sucesso.");
+        setMostrarFeedback(true);
       } else {
         console.error("Erro ao agendar: ", response.data);
+        setTipoFeedback("erro");
+        setMensagemFeedback("Erro ao agendar. Por favor, tente novamente.");
+        setMostrarFeedback(true);
       }
     } catch (error) {
       console.error("Erro ao agendar:", error);
+      setTipoFeedback("erro");
+      setMensagemFeedback("Erro ao agendar. Por favor, tente novamente.");
+      setMostrarFeedback(true);
     }
   };
 
@@ -441,6 +470,14 @@ export default function Agendamento({ navigation }) {
           <ButtonEstilizado texto="Voltar" mt={3} onPress={onClose} />
         </Actionsheet.Content>
       </Actionsheet>
+      {mostrarFeedback && (
+        <MensagemFeedback
+          tipo={tipoFeedback}
+          mensagem={mensagemFeedback}
+          isOpen={mostrarFeedback}
+          onClose={() => setMostrarFeedback(false)}
+        />
+      )}
     </ScrollView>
   );
 }

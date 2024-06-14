@@ -1,12 +1,13 @@
+import React, { useState } from "react";
 import { Box, Divider, FormControl, Text, VStack } from "native-base";
 import bgLogin from "../../assets/images/bgLogin.png";
-import { ImageBackground, TouchableOpacity, Dimensions } from "react-native";
 import { InputEstilizado } from "../../components/InputEstilizado";
 import { ButtonEstilizado } from "../../components/ButtonEstilizado";
 import { useFonts } from "expo-font";
 import { api } from "../../components/API";
-import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MensagemFeedback from "../../components/MensagemFeedback"; // Importe o componente MensagemFeedback
+import { Dimensions, ImageBackground, TouchableOpacity } from "react-native";
 
 export default function Login({ navigation }) {
   const [fontsCarregadas, fontsError] = useFonts({
@@ -16,6 +17,11 @@ export default function Login({ navigation }) {
   });
   const [usu_email, setUsu_email] = useState("");
   const [usu_senha, setUsu_senha] = useState("");
+  const [mostrarFeedback, setMostrarFeedback] = useState(false); // Estado para controlar a exibição da mensagem
+  const [tipoFeedback, setTipoFeedback] = useState<"sucesso" | "erro">(
+    "sucesso"
+  );
+  const [mensagemFeedback, setMensagemFeedback] = useState("");
 
   const handleLogin = async () => {
     try {
@@ -29,7 +35,6 @@ export default function Login({ navigation }) {
 
       if (usuarioEncontrado) {
         const { id, usu_nomeCompleto, usu_foto, usu_tipo } = usuarioEncontrado;
-        console.log(usu_tipo);
 
         await AsyncStorage.setItem("usuarioNome", usu_nomeCompleto);
         await AsyncStorage.setItem("usuarioFoto", usu_foto);
@@ -64,12 +69,27 @@ export default function Login({ navigation }) {
         } else {
           console.log("Tipo de usuário inválido.");
         }
+
+        // Define a mensagem de sucesso
+        setTipoFeedback("sucesso");
+        setMensagemFeedback("Login realizado com sucesso.");
+        setMostrarFeedback(true);
       } else {
-        console.log("Credenciais inválidas. Por favor, tente novamente.");
+        // Define a mensagem de erro
+        setTipoFeedback("erro");
+        setMensagemFeedback(
+          "Credenciais inválidas. Por favor, tente novamente."
+        );
+        setMostrarFeedback(true);
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
       console.log("Erro ao fazer login. Por favor, tente novamente.");
+
+      // Define a mensagem de erro
+      setTipoFeedback("erro");
+      setMensagemFeedback("Erro ao fazer login. Por favor, tente novamente.");
+      setMostrarFeedback(true);
     }
   };
 
@@ -183,6 +203,16 @@ export default function Login({ navigation }) {
             </Text>
           </TouchableOpacity>
         </Box>
+
+        {/* Renderiza a MensagemFeedback se mostrarFeedback for true */}
+        {mostrarFeedback && (
+          <MensagemFeedback
+            tipo={tipoFeedback}
+            mensagem={mensagemFeedback}
+            isOpen={mostrarFeedback}
+            onClose={() => setMostrarFeedback(false)}
+          />
+        )}
       </VStack>
     </ImageBackground>
   );

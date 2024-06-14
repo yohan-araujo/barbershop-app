@@ -31,6 +31,14 @@
       "usu_senha": "123",
       "usu_foto": "https://github.com/yohan-araujo.png",
       "usu_tipo:": "P"
+    },
+    {
+      "id": "4ddc",
+      "usu_nomeCompleto": "Erick Alexandre de Araujo ",
+      "usu_email": "erick@erick.erick",
+      "usu_senha": "123",
+      "usu_foto": "https://scontent.fguj2-1.fna.fbcdn.net/v/t39.30808-6/426369511_7429695193719300_9012382593600841983_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=V5rMI8S_2ykQ7kNvgEo0Jir&_nc_ht=scontent.fguj2-1.fna&oh=00_AYA6ilzPrHScTKPHJJU3eElvtNiaSEaebxKZs-BV0mL_pw&oe=66715A25",
+      "usu_tipo": "C"
     }
   ],
   "cli_clientes": [
@@ -38,6 +46,11 @@
       "id": "add2",
       "cli_telefone": "1111111111111",
       "usu_id": "1"
+    },
+    {
+      "id": "2ab5",
+      "cli_telefone": "1288979",
+      "usu_id": "4ddc"
     }
   ],
   "pro_profissionais": [
@@ -92,7 +105,16 @@
       "ser_id": "1",
       "age_data": "14-06-2024",
       "age_hora": "10:00",
-      "age_status": false
+      "age_status": true
+    },
+    {
+      "id": "1ab6",
+      "cli_id": "2ab5",
+      "pro_id": "1",
+      "ser_id": "2",
+      "age_data": "14-06-2024",
+      "age_hora": "10:00",
+      "age_status": true
     }
   ]
 }
