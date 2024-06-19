@@ -4,6 +4,7 @@ import {
   Box,
   Center,
   Divider,
+  Image,
   Pressable,
   Text,
   VStack,
@@ -59,7 +60,14 @@ export default function CardProfissionalHome({
         </Center>
         <Box my={2}>
           <Box flexDirection={"row"} mt={1} ml={3}>
-            <Avatar size={"xs"} />
+            <Box w={4} h={4} bgColor={"#E29C31"} rounded={"full"}>
+              <Image
+                w={4}
+                h={4}
+                source={{ uri: "../../assets/images/icons/iconBigode.png" }}
+                alt="icone de bigode"
+              />
+            </Box>
 
             <Text color={"white"} ml={2} fontFamily={"NeohellenicRegular"}>
               Cabelo

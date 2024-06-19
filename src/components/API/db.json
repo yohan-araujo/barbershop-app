@@ -26,11 +26,11 @@
     },
     {
       "id": "4",
-      "usu_nomeCompleto": "Dionisio",
-      "usu_email": "dionisio@dionisio.dionisio",
+      "usu_nomeCompleto": "Dionisio bugado",
+      "usu_email": "d@d.d",
       "usu_senha": "123",
-      "usu_foto": "https://github.com/yohan-araujo.png",
-      "usu_tipo:": "P"
+      "usu_foto": "https://github.com/andredsantos82.png",
+      "usu_tipo": "P"
     },
     {
       "id": "4ddc",
@@ -74,27 +74,26 @@
     {
       "id": "1",
       "ser_tipo": "Corte de Cabelo",
-      "ser_preco": 25
+      "ser_preco": 25,
+      "ser_foto": "iconTesoura.png"
     },
     {
       "id": "2",
       "ser_tipo": "Tintura",
-      "ser_preco": 80
+      "ser_preco": 80,
+      "ser_foto": "iconPincel.png"
     },
     {
       "id": "3",
       "ser_tipo": "Barba",
-      "ser_preco": 12
+      "ser_preco": 12,
+      "ser_foto": "iconBigode.png"
     },
     {
       "id": "4",
       "ser_tipo": "Sobrancelha",
-      "ser_preco": 10
-    },
-    {
-      "id": "5",
-      "ser_tipo": "Sobrancelha 2",
-      "ser_preco": 10
+      "ser_preco": 10,
+      "ser_foto": "iconPinca.png"
     }
   ],
   "age_agendamentos": [
@@ -113,6 +112,15 @@
       "pro_id": "1",
       "ser_id": "2",
       "age_data": "14-06-2024",
+      "age_hora": "10:00",
+      "age_status": true
+    },
+    {
+      "id": "ad5e",
+      "cli_id": "add2",
+      "pro_id": "3",
+      "ser_id": "1",
+      "age_data": "19-06-2024",
       "age_hora": "10:00",
       "age_status": true
     }
