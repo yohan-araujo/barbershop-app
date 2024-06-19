@@ -131,20 +131,27 @@ export default function Home() {
         />
       </Box>
 
-      <VStack bg={"#E29C31"} mt={4} w={"24"} rounded={"full"}>
-        <Text fontSize={20} textAlign={"center"} fontFamily={"NeohellenicBold"}>
-          Categorias
-        </Text>
-      </VStack>
+      <Divider bgColor={"white"} opacity={40} mt={8} />
 
       <Text
         color={"#E29C31"}
-        mt={4}
-        fontSize={24}
+        fontSize={22}
         fontFamily={"NeohellenicBold"}
+        mt={4}
       >
-        Serviços
+        Qual serviço você deseja hoje?
       </Text>
+
+      <Text
+        color={"white"}
+        fontFamily={"NeohellenicRegular"}
+        fontSize={18}
+        opacity={70}
+      >
+        Clique em um serviço para visualizar quais profissionais realizam!
+      </Text>
+
+      <Divider bgColor={"white"} opacity={40} mt={4} />
 
       <Box justifyContent={"center"} alignItems={"center"}>
         <Box

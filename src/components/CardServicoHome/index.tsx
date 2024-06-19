@@ -6,6 +6,7 @@ import {
   Divider,
   HStack,
   IBoxProps,
+  Image,
   Pressable,
   Text,
   useDisclose,
@@ -17,6 +18,14 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 interface CardServicoProps extends IBoxProps {
   servico: IServico;
 }
+
+// Mapeamento das imagens
+const imageMap: { [key: string]: any } = {
+  "iconTesoura.png": require("../../assets/images/icons/iconTesoura.png"),
+  "iconPincel.png": require("../../assets/images/icons/iconPincel.png"),
+  "iconBigode.png": require("../../assets/images/icons/iconBigode.png"),
+  "iconPinca.png": require("../../assets/images/icons/iconPinca.png"),
+};
 
 export default function CardServicoHome({
   servico,
@@ -49,9 +58,16 @@ export default function CardServicoHome({
             h={71}
             bgColor={"#E29C31"}
             rounded={"xl"}
-            opacity={80}
+            opacity={90}
           >
-            <Text>icone</Text>
+            <Box justifyContent={"center"} alignItems={"center"} mt={3}>
+              <Image
+                w={12}
+                h={12}
+                source={imageMap[servico.ser_foto]}
+                alt="icone do serviço"
+              />
+            </Box>
           </Box>
           <Box ml={"auto"}>
             <Ionicons name={"chevron-forward"} size={20} color={"white"} />
