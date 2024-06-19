@@ -1,5 +1,4 @@
 import { ScrollView, Text } from "native-base";
-import MensagemFeedback from "../../components/MensagemFeedback";
 
 export default function Galeria() {
   return (

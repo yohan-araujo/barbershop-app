@@ -56,6 +56,7 @@ export default function Perfil({ navigation }) {
 
     fetchTipoUsuario();
   }, []);
+
   return (
     <ScrollView flex={1} bg={"#1D1D1D"}>
       <Image
