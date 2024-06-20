@@ -4,11 +4,15 @@ import {
   Box,
   Center,
   Divider,
+  Image,
   Pressable,
   Text,
   VStack,
 } from "native-base";
 import IProfissional from "../../@types/IProfissional";
+import IconPinca from "../../assets/images/icons/iconPinca.png";
+import IconBigode from "../../assets/images/icons/iconBigode.png";
+import IconTesoura from "../../assets/images/icons/iconTesoura.png";
 
 interface ICardProfissionalProps {
   profissional: IProfissional;
@@ -37,7 +41,7 @@ export default function CardProfissional({
         justifyContent={"center"}
         key={profissional.id}
         borderWidth={3}
-        borderColor={estaSelecionado ? "#E29C31" : "black"}
+        borderColor={estaSelecionado ? "white" : "black"}
       >
         <Center mb={5}>
           <Avatar
@@ -64,21 +68,53 @@ export default function CardProfissional({
           </Center>
           <Box my={2}>
             <Box flexDirection={"row"} mt={1} ml={3}>
-              <Avatar size={"xs"} />
+              <Box
+                w={6}
+                h={6}
+                bgColor={"#E29C31"}
+                rounded={"full"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Image
+                  w={4}
+                  h={4}
+                  source={IconTesoura}
+                  alt="icone de tesoura"
+                />
+              </Box>
 
               <Text color={"white"} ml={2} fontFamily={"NeohellenicRegular"}>
                 Cabelo
               </Text>
             </Box>
             <Box flexDirection={"row"} mt={1} ml={3}>
-              <Avatar size={"xs"} />
+              <Box
+                w={6}
+                h={6}
+                bgColor={"#E29C31"}
+                rounded={"full"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Image w={4} h={4} source={IconBigode} alt="icone de bigode" />
+              </Box>
 
               <Text color={"white"} ml={2} fontFamily={"NeohellenicRegular"}>
                 Barba
               </Text>
             </Box>
             <Box flexDirection={"row"} mt={1} ml={3}>
-              <Avatar size={"xs"} />
+              <Box
+                w={6}
+                h={6}
+                bgColor={"#E29C31"}
+                rounded={"full"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Image w={4} h={4} source={IconPinca} alt="icone de pinca" />
+              </Box>
 
               <Text color={"white"} ml={2} fontFamily={"NeohellenicRegular"}>
                 Sobrancelha

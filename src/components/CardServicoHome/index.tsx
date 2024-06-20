@@ -14,12 +14,13 @@ import {
 } from "native-base";
 import IServico from "../../@types/IServico";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import IProfissional from "../../@types/IProfissional";
 
 interface CardServicoProps extends IBoxProps {
   servico: IServico;
+  profissionais: IProfissional[];
 }
 
-// Mapeamento das imagens
 const imageMap: { [key: string]: any } = {
   "iconTesoura.png": require("../../assets/images/icons/iconTesoura.png"),
   "iconPincel.png": require("../../assets/images/icons/iconPincel.png"),
@@ -29,6 +30,7 @@ const imageMap: { [key: string]: any } = {
 
 export default function CardServicoHome({
   servico,
+  profissionais,
   ...rest
 }: CardServicoProps) {
   const [fontsCarregadas, fontsError] = useFonts({
@@ -64,7 +66,7 @@ export default function CardServicoHome({
               <Image
                 w={12}
                 h={12}
-                source={imageMap[servico.ser_foto]}
+                source={imageMap[servico.ser_icon]}
                 alt="icone do serviço"
               />
             </Box>
@@ -128,33 +130,36 @@ export default function CardServicoHome({
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <HStack
-              w={"full"}
-              bgColor={"black"}
-              py={3}
-              px={2}
-              space={3}
-              rounded={"xl"}
-              alignItems={"center"}
-            >
-              <Avatar />
-              <VStack>
-                <Text
-                  fontFamily={"NeohellenicRegular"}
-                  color={"#E29C31"}
-                  fontSize={18}
-                >
-                  Andre Ramos
-                </Text>
-                <Text
-                  fontFamily={"NeohellenicRegular"}
-                  color={"white"}
-                  fontSize={18}
-                >
-                  Especializado em tal
-                </Text>
-              </VStack>
-            </HStack>
+            {profissionais.map((profissional, index) => (
+              <HStack
+                w={"full"}
+                bgColor={"black"}
+                py={3}
+                px={2}
+                space={3}
+                rounded={"xl"}
+                alignItems={"center"}
+                key={index}
+              >
+                <Avatar source={{ uri: profissional.usu_foto }} />
+                <VStack>
+                  <Text
+                    fontFamily={"NeohellenicRegular"}
+                    color={"#E29C31"}
+                    fontSize={18}
+                  >
+                    {profissional.usu_nomeCompleto}
+                  </Text>
+                  <Text
+                    fontFamily={"NeohellenicRegular"}
+                    color={"white"}
+                    fontSize={18}
+                  >
+                    Especializado em corte, barba e tintura.
+                  </Text>
+                </VStack>
+              </HStack>
+            ))}
           </Actionsheet.Item>
         </Actionsheet.Content>
       </Actionsheet>

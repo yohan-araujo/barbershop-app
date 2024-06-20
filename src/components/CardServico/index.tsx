@@ -29,7 +29,7 @@ export default function CardServico({
         justifyContent={"center"}
         key={servico.id}
         borderWidth={3}
-        borderColor={estaSelecionado ? "#E29C31" : "black"}
+        borderColor={estaSelecionado ? "white" : "black"}
       >
         <Image
           mt={1}

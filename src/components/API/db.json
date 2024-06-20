@@ -75,25 +75,25 @@
       "id": "1",
       "ser_tipo": "Corte de Cabelo",
       "ser_preco": 25,
-      "ser_foto": "iconTesoura.png"
+      "ser_icon": "iconTesoura.png"
     },
     {
       "id": "2",
       "ser_tipo": "Tintura",
       "ser_preco": 80,
-      "ser_foto": "iconPincel.png"
+      "ser_icon": "iconPincel.png"
     },
     {
       "id": "3",
       "ser_tipo": "Barba",
       "ser_preco": 12,
-      "ser_foto": "iconBigode.png"
+      "ser_icon": "iconBigode.png"
     },
     {
       "id": "4",
       "ser_tipo": "Sobrancelha",
       "ser_preco": 10,
-      "ser_foto": "iconPinca.png"
+      "ser_icon": "iconPinca.png"
     }
   ],
   "age_agendamentos": [

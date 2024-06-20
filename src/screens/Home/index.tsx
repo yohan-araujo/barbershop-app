@@ -2,24 +2,18 @@ import {
   Avatar,
   Box,
   Text,
-  VStack,
   Spacer,
   Divider,
   ScrollView,
   Image,
-  Row,
-  FlatList,
-  Wrap,
   HStack,
 } from "native-base";
 import imgCarrosel from "../../assets/images/imgCarroselHome.png";
 import { useFonts } from "expo-font";
-import Carrossel from "../../components/Carrosel";
 import { useEffect, useState } from "react";
 import IServico from "../../@types/IServico";
 import IProfissional from "../../@types/IProfissional";
 import { api } from "../../components/API";
-import CardProfissionalHome from "../../components/CardProfissionalHome";
 import CardServicoHome from "../../components/CardServicoHome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -153,7 +147,7 @@ export default function Home() {
 
       <Divider bgColor={"white"} opacity={40} mt={4} />
 
-      <Box justifyContent={"center"} alignItems={"center"}>
+      <Box justifyContent={"center"} alignItems={"center"} mb={24}>
         <Box
           flexDirection={"row"}
           flexWrap={"wrap"}
@@ -163,30 +157,13 @@ export default function Home() {
         >
           {servicos.map((servico) => (
             <Box key={servico.id} mx={4} my={6}>
-              <CardServicoHome servico={servico} />
+              <CardServicoHome
+                servico={servico}
+                profissionais={profissionais}
+              />
             </Box>
           ))}
         </Box>
-      </Box>
-
-      <Text
-        color={"#E29C31"}
-        mt={4}
-        fontSize={24}
-        fontFamily={"NeohellenicBold"}
-      >
-        Profissionais
-      </Text>
-
-      <Box h={96}>
-        <Carrossel>
-          {profissionais.map((profissional) => (
-            <CardProfissionalHome
-              key={profissional.id}
-              profissional={profissional}
-            />
-          ))}
-        </Carrossel>
       </Box>
     </ScrollView>
   );
