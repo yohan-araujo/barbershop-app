@@ -12,6 +12,7 @@ import CardHistorico from "../../components/CardHistorico";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Calendario from "../../components/Calendario";
+import { ButtonEstilizado } from "../../components/ButtonEstilizado";
 
 export default function Perfil({ navigation }) {
   const [nomeUsuario, setNomeUsuario] = useState("");
@@ -102,18 +103,6 @@ export default function Perfil({ navigation }) {
               <CardHistorico />
             </VStack>
           </VStack>
-
-          <Text
-            color={"white"}
-            fontFamily={"NeohellenicRegular"}
-            fontSize={16}
-            textAlign={"right"}
-            mt={4}
-            mr={6}
-            underline
-          >
-            Ver mais..
-          </Text>
         </VStack>
       ) : (
         <VStack p={5}>
