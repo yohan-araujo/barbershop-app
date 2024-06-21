@@ -15,6 +15,7 @@ import {
 import IServico from "../../@types/IServico";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import IProfissional from "../../@types/IProfissional";
+import ImagemModal from "../../assets/images/bgModal.jpg";
 
 interface CardServicoProps extends IBoxProps {
   servico: IServico;
@@ -84,7 +85,7 @@ export default function CardServicoHome({
           </Text>
         </VStack>
       </Box>
-      <Actionsheet isOpen={isOpen} onClose={onClose} hideDragIndicator>
+      <Actionsheet isOpen={isOpen} onClose={onClose}>
         <Actionsheet.Content p={5} bgColor={"#1D1D1D"}>
           <Actionsheet.Item bgColor={"#1D1D1D"}>
             <VStack>
@@ -131,34 +132,35 @@ export default function CardServicoHome({
             alignItems={"center"}
           >
             {profissionais.map((profissional, index) => (
-              <HStack
-                w={"full"}
-                bgColor={"black"}
-                py={3}
-                px={2}
-                space={3}
-                rounded={"xl"}
-                alignItems={"center"}
-                key={index}
-              >
-                <Avatar source={{ uri: profissional.usu_foto }} />
-                <VStack>
-                  <Text
-                    fontFamily={"NeohellenicRegular"}
-                    color={"#E29C31"}
-                    fontSize={18}
-                  >
-                    {profissional.usu_nomeCompleto}
-                  </Text>
-                  <Text
-                    fontFamily={"NeohellenicRegular"}
-                    color={"white"}
-                    fontSize={18}
-                  >
-                    Especializado em corte, barba e tintura.
-                  </Text>
-                </VStack>
-              </HStack>
+              <Box my={1} key={index}>
+                <HStack
+                  w={"full"}
+                  bgColor={"black"}
+                  py={3}
+                  px={2}
+                  space={3}
+                  rounded={"xl"}
+                  alignItems={"center"}
+                >
+                  <Avatar source={{ uri: profissional.usu_foto }} />
+                  <VStack>
+                    <Text
+                      fontFamily={"NeohellenicRegular"}
+                      color={"#E29C31"}
+                      fontSize={18}
+                    >
+                      {profissional.usu_nomeCompleto}
+                    </Text>
+                    <Text
+                      fontFamily={"NeohellenicRegular"}
+                      color={"white"}
+                      fontSize={18}
+                    >
+                      Especializado em corte, barba e tintura.
+                    </Text>
+                  </VStack>
+                </HStack>
+              </Box>
             ))}
           </Actionsheet.Item>
         </Actionsheet.Content>

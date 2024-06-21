@@ -394,7 +394,7 @@ export default function Agendamento({ navigation }) {
                 fontSize={18}
                 fontFamily={"NeohellenicRegular"}
               >
-                {horarioSelecionado} - {dataSelecionada}
+                {dataSelecionada} - {horarioSelecionado}
               </Text>
             </Box>
           </Actionsheet.Item>

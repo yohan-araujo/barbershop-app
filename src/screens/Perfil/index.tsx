@@ -13,11 +13,22 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Calendario from "../../components/Calendario";
 import { ButtonEstilizado } from "../../components/ButtonEstilizado";
+import CartaoFidelidade from "../../components/CartaoFidelidade";
+import IAgendamento from "../../@types/IAgendamento";
+import IServico from "../../@types/IServico";
+import IProfissional from "../../@types/IProfissional";
+import IUsuario from "../../@types/IUsuario";
+import { api } from "../../components/API";
 
 export default function Perfil({ navigation }) {
   const [nomeUsuario, setNomeUsuario] = useState("");
   const [fotoUsuario, setFotoUsuario] = useState("");
   const [tipoUsuario, setTipoUsuario] = useState("");
+  const [clienteId, setClienteId] = useState<string | null>(null);
+  const [agendamentos, setAgendamentos] = useState<IAgendamento[]>([]);
+  const [servicos, setServicos] = useState<IServico[]>([]);
+  const [profissionais, setProfissionais] = useState<IProfissional[]>([]);
+  const [usuarios, setUsuarios] = useState<IUsuario[]>([]); // Estado para armazenar usuários
 
   useEffect(() => {
     const fetchNomeUsuario = async () => {
@@ -58,6 +69,68 @@ export default function Perfil({ navigation }) {
     fetchTipoUsuario();
   }, []);
 
+  useEffect(() => {
+    const fetchClienteId = async () => {
+      try {
+        const id = await AsyncStorage.getItem("clienteId");
+        setClienteId(id);
+        if (id) {
+          fetchAgendamentos(id);
+        }
+      } catch (error) {
+        console.error("Erro ao obter o ID do cliente:", error);
+      }
+    };
+
+    const fetchAgendamentos = async (id: string) => {
+      try {
+        const responseAgendamentos = await api.get(`age_agendamentos`, {
+          params: {
+            cli_id: id,
+            age_status: false,
+          },
+        });
+
+        // Filtrar agendamentos com age_status true
+        const agendamentosAtivos = responseAgendamentos.data.filter(
+          (agendamento: IAgendamento) => agendamento.age_status === false
+        );
+
+        setAgendamentos(agendamentosAtivos);
+
+        // Buscar informações de serviços
+        const servicosIds = agendamentosAtivos.map(
+          (agendamento: IAgendamento) => agendamento.ser_id
+        );
+        const responseServicos = await api.get(`ser_servicos`, {
+          params: {
+            id: servicosIds,
+          },
+        });
+        setServicos(responseServicos.data);
+
+        // Buscar informações de profissionais
+        const profissionaisIds = agendamentosAtivos.map(
+          (agendamento: IAgendamento) => agendamento.pro_id
+        );
+        const responseProfissionais = await api.get(`pro_profissionais`, {
+          params: {
+            id: profissionaisIds,
+          },
+        });
+        setProfissionais(responseProfissionais.data);
+
+        // Buscar informações de todos os usuários
+        const responseUsuarios = await api.get(`usu_usuarios`);
+        setUsuarios(responseUsuarios.data);
+      } catch (error) {
+        console.error("Erro ao buscar agendamentos:", error);
+      }
+    };
+
+    fetchClienteId();
+  }, []);
+
   return (
     <ScrollView flex={1} bg={"#1D1D1D"}>
       <Image
@@ -93,16 +166,54 @@ export default function Perfil({ navigation }) {
 
       {tipoUsuario === "C" ? (
         <VStack p={5}>
-          <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={24}>
+          <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={22}>
             Horários ativos:
           </Text>
 
-          <VStack mt={5} bg={"black"} justifyContent={"center"} p={2}>
-            <CardHistorico ativo />
-            <VStack mt={4}>
-              <CardHistorico />
+          <VStack mt={5} justifyContent={"center"} p={2}>
+            <VStack>
+              {agendamentos.map((agendamento) => (
+                <Box my={4} key={agendamento.id}>
+                  <CardHistorico
+                    agendamento={agendamento}
+                    servicos={servicos}
+                    profissionais={profissionais}
+                    usuarios={usuarios}
+                    ativo={true}
+                  />
+                </Box>
+              ))}
             </VStack>
           </VStack>
+          <Pressable onPress={() => navigation.navigate("Historico")}>
+            <Text
+              color={"white"}
+              fontFamily={"NeohellenicRegular"}
+              fontSize={16}
+              underline
+            >
+              Ver histórico...
+            </Text>
+          </Pressable>
+          <Text
+            color={"#E29C31"}
+            fontFamily={"NeohellenicBold"}
+            fontSize={22}
+            mt={4}
+          >
+            Cartão fidelidade:
+          </Text>
+          <Text
+            color={"white"}
+            opacity={70}
+            fontSize={18}
+            fontFamily={"NeohellenicRegular"}
+          >
+            Veja sua agenda em ver mais!
+          </Text>
+          <Box mt={4} mb={24}>
+            <CartaoFidelidade />
+          </Box>
         </VStack>
       ) : (
         <VStack p={5}>

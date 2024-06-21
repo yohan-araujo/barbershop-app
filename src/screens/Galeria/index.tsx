@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Image, ScrollView, Text, Flex, HStack } from "native-base";
+import { Box, Image, ScrollView, Text, HStack } from "native-base";
 
 const enderecoImagens = [
   require("../../assets/images/galeria/imagemGaleria1.jpg"),
@@ -42,7 +42,7 @@ export default function Galeria() {
           <Box key={index} mb={4} mx={1}>
             <Image
               source={enderecoImagem}
-              alt={`imagem ${index + 1}`}
+              alt={`imagem ${index + 1} da galeria`}
               borderRadius={10}
               w={tamanhos[index % tamanhos.length].width}
               h={tamanhos[index % tamanhos.length].height}
