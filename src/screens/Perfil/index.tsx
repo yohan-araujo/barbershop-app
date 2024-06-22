@@ -19,6 +19,7 @@ import IServico from "../../@types/IServico";
 import IProfissional from "../../@types/IProfissional";
 import IUsuario from "../../@types/IUsuario";
 import { api } from "../../components/API";
+import ICartaoFidelidade from "../../@types/ICartaoFidelidade";
 
 export default function Perfil({ navigation }) {
   const [nomeUsuario, setNomeUsuario] = useState("");
@@ -28,7 +29,8 @@ export default function Perfil({ navigation }) {
   const [agendamentos, setAgendamentos] = useState<IAgendamento[]>([]);
   const [servicos, setServicos] = useState<IServico[]>([]);
   const [profissionais, setProfissionais] = useState<IProfissional[]>([]);
-  const [usuarios, setUsuarios] = useState<IUsuario[]>([]); // Estado para armazenar usuários
+  const [usuarios, setUsuarios] = useState<IUsuario[]>([]);
+  const [cartaoFidelidade, setCartaoFidelidade] = useState<ICartaoFidelidade>();
 
   useEffect(() => {
     const fetchNomeUsuario = async () => {
@@ -76,6 +78,7 @@ export default function Perfil({ navigation }) {
         setClienteId(id);
         if (id) {
           fetchAgendamentos(id);
+          fetchCartaoFidelidade(id);
         }
       } catch (error) {
         console.error("Erro ao obter o ID do cliente:", error);
@@ -91,14 +94,12 @@ export default function Perfil({ navigation }) {
           },
         });
 
-        // Filtrar agendamentos com age_status true
         const agendamentosAtivos = responseAgendamentos.data.filter(
           (agendamento: IAgendamento) => agendamento.age_status === false
         );
 
         setAgendamentos(agendamentosAtivos);
 
-        // Buscar informações de serviços
         const servicosIds = agendamentosAtivos.map(
           (agendamento: IAgendamento) => agendamento.ser_id
         );
@@ -109,7 +110,6 @@ export default function Perfil({ navigation }) {
         });
         setServicos(responseServicos.data);
 
-        // Buscar informações de profissionais
         const profissionaisIds = agendamentosAtivos.map(
           (agendamento: IAgendamento) => agendamento.pro_id
         );
@@ -120,11 +120,23 @@ export default function Perfil({ navigation }) {
         });
         setProfissionais(responseProfissionais.data);
 
-        // Buscar informações de todos os usuários
         const responseUsuarios = await api.get(`usu_usuarios`);
         setUsuarios(responseUsuarios.data);
       } catch (error) {
         console.error("Erro ao buscar agendamentos:", error);
+      }
+    };
+
+    const fetchCartaoFidelidade = async (id: string) => {
+      try {
+        const responseCartaoFidelidade = await api.get(`cf_cartaoFidelidade`, {
+          params: {
+            cli_id: id,
+          },
+        });
+        setCartaoFidelidade(responseCartaoFidelidade.data[0]);
+      } catch (error) {
+        console.error("Erro ao buscar o cartao do cliente", error);
       }
     };
 
@@ -209,10 +221,13 @@ export default function Perfil({ navigation }) {
             fontSize={18}
             fontFamily={"NeohellenicRegular"}
           >
-            Veja sua agenda em ver mais!
+            Com dez serviços concluídos você pode resgatar um corte de cabelo
+            grátis!
           </Text>
           <Box mt={4} mb={24}>
-            <CartaoFidelidade />
+            {cartaoFidelidade && (
+              <CartaoFidelidade cartaoFidelidade={cartaoFidelidade} />
+            )}
           </Box>
         </VStack>
       ) : (

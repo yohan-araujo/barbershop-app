@@ -87,7 +87,7 @@ export default function ConfAgendamento() {
     );
   };
 
-  const confirmarAgendamentos = async () => {
+  const confirmarAgendamentos = async (navigation) => {
     try {
       for (const agendamentoId of selectedAgendamentos) {
         await api.patch(`/age_agendamentos/${agendamentoId}`, {

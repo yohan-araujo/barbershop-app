@@ -1,10 +1,16 @@
-import React, { useState } from "react";
-import { Box, Image } from "native-base";
+import React from "react";
+import { Box, Image, Text } from "native-base";
 import IconBigode2 from "../../assets/images/icons/iconBigode2.png";
+import ICartaoFidelidade from "../../@types/ICartaoFidelidade";
+import { ButtonEstilizado } from "../ButtonEstilizado";
 
-export default function CartaoFidelidade() {
-  const [pontos, setPontos] = useState(9);
+interface CartaoFidelidadeProps {
+  cartaoFidelidade: ICartaoFidelidade;
+}
 
+export default function CartaoFidelidade({
+  cartaoFidelidade,
+}: CartaoFidelidadeProps) {
   return (
     <Box
       borderWidth={2}
@@ -28,7 +34,7 @@ export default function CartaoFidelidade() {
           alignItems="center"
           m={1}
         >
-          {index < pontos && (
+          {index < cartaoFidelidade.cf_pontos && (
             <Box
               w={9}
               h={9}
@@ -42,6 +48,9 @@ export default function CartaoFidelidade() {
           )}
         </Box>
       ))}
+      {cartaoFidelidade.cf_resgatavel && (
+        <ButtonEstilizado texto="Resgatar" mt={4} />
+      )}
     </Box>
   );
 }

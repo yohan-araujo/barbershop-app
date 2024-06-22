@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Divider, FormControl, Text, VStack } from "native-base";
+import {
+  Box,
+  Divider,
+  FormControl,
+  ScrollView,
+  Text,
+  VStack,
+} from "native-base";
 import bgLogin from "../../assets/images/bgLogin.png";
 import { InputEstilizado } from "../../components/InputEstilizado";
 import { ButtonEstilizado } from "../../components/ButtonEstilizado";
@@ -108,30 +115,31 @@ export default function Login({ navigation }) {
         height: Dimensions.get("window").height,
       }}
     >
-      <VStack flex={1} alignItems={"center"} p={5}>
-        <Text
-          color={"white"}
-          fontSize={"2xl"}
-          textAlign={"center"}
-          mt={24}
-          fontFamily={"Amithen"}
-        >
-          Desde{"      "}2021
-        </Text>
+      <ScrollView flex={1} p={5}>
+        <Box justifyContent={"center"} alignItems={"center"}>
+          <Text
+            color={"white"}
+            fontSize={"2xl"}
+            textAlign={"center"}
+            mt={24}
+            fontFamily={"Amithen"}
+          >
+            Desde{"      "}2021
+          </Text>
 
-        <Divider w={"45%"} />
+          <Divider w={"45%"} />
 
-        <Text
-          color={"white"}
-          fontSize={"54"}
-          textAlign={"center"}
-          fontFamily={"Amithen"}
-        >
-          BarberShop
-        </Text>
-
+          <Text
+            color={"white"}
+            fontSize={"54"}
+            textAlign={"center"}
+            fontFamily={"Amithen"}
+          >
+            BarberShop
+          </Text>
+        </Box>
         <Box mt={64}>
-          <FormControl>
+          <FormControl justifyContent={"center"} alignItems={"center"}>
             <InputEstilizado
               placeholder="E-mail"
               mt={4}
@@ -149,14 +157,15 @@ export default function Login({ navigation }) {
             />
           </FormControl>
         </Box>
-
-        <ButtonEstilizado
-          texto="Entrar"
-          mt={5}
-          onPress={handleLogin}
-          _text={{ color: "white" }}
-          login
-        />
+        <Box justifyContent={"center"} alignItems={"center"}>
+          <ButtonEstilizado
+            texto="Entrar"
+            mt={5}
+            onPress={handleLogin}
+            _text={{ color: "white" }}
+            login
+          />
+        </Box>
         <Box w={"100%"} flexDirection={"row"} justifyContent={"center"} mt={4}>
           <Text
             color={"white"}
@@ -213,7 +222,7 @@ export default function Login({ navigation }) {
             onClose={() => setMostrarFeedback(false)}
           />
         )}
-      </VStack>
+      </ScrollView>
     </ImageBackground>
   );
 }

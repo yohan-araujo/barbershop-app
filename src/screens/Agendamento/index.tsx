@@ -82,16 +82,20 @@ export default function Agendamento({ navigation }) {
     const fetchProfissionais = async () => {
       try {
         const response = await api.get("/pro_profissionais");
-        const proData = response.data;
+        const profissionaisData = response.data;
 
-        const profissionalData = await Promise.all(
-          proData.map(async (pro: IProfissional) => {
-            const userResponse = await api.get(`/usu_usuarios/${pro.usu_id}`);
+        const profissionaisCompletos = await Promise.all(
+          profissionaisData.map(async (profissional: IProfissional) => {
+            const usuarioResponse = await api.get(
+              `/usu_usuarios/${profissional.usu_id}`
+            );
+            const usuarioCompleto = usuarioResponse.data;
 
-            return { ...pro, ...userResponse.data };
+            return { ...profissional, ...usuarioCompleto, id: profissional.id };
           })
         );
-        setProfissionais(profissionalData);
+
+        setProfissionais(profissionaisCompletos);
       } catch (error) {
         console.log("Erro ao buscar profissionais: ", error);
       }
@@ -184,6 +188,8 @@ export default function Agendamento({ navigation }) {
       setMostrarFeedback(true);
     }
   };
+
+  console.log(profissionalSelecionado);
 
   return (
     <ScrollView flex={1} p={5} backgroundColor={"#1D1D1D"}>
