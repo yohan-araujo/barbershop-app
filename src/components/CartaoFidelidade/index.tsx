@@ -49,7 +49,16 @@ export default function CartaoFidelidade({
         </Box>
       ))}
       {cartaoFidelidade.cf_resgatavel && (
-        <ButtonEstilizado texto="Resgatar" mt={4} />
+        <Text
+          color={"#E29C31"}
+          fontFamily={"NeohellenicRegular"}
+          fontSize={18}
+          textAlign={"center"}
+          mt={2}
+        >
+          {" "}
+          Vá para home para resgatar seu serviço grátis!
+        </Text>
       )}
     </Box>
   );

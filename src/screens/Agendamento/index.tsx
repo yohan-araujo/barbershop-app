@@ -28,6 +28,7 @@ import Calendario from "../../components/Calendario";
 import { format } from "date-fns";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MensagemFeedback from "../../components/MensagemFeedback";
+import ModalEstilizada from "../../components/ModalEstilizada";
 
 export default function Agendamento({ navigation }) {
   const [numSecao, setNumSecao] = useState(0);
@@ -49,14 +50,25 @@ export default function Agendamento({ navigation }) {
     "sucesso"
   );
   const [mensagemFeedback, setMensagemFeedback] = useState("");
+  const [cartaoFidelidade, setCartaoFidelidade] = useState(null);
+  const [modalAberta, setModalAberta] = useState(false);
+  const [resgatavel, setResgatavel] = useState(false);
+
+  const abrirModal = () => {
+    setModalAberta(true);
+  };
+
+  const fecharModal = () => {
+    setModalAberta(false);
+  };
 
   const { isOpen, onOpen, onClose } = useDisclose();
 
   useEffect(() => {
     const fetchIdCliente = async () => {
       try {
-        const nome = await AsyncStorage.getItem("clienteId");
-        setIdCliente(nome);
+        const id = await AsyncStorage.getItem("clienteId");
+        setIdCliente(id);
       } catch (error) {
         console.error("Erro ao obter o id do cliente:", error);
       }
@@ -68,7 +80,7 @@ export default function Agendamento({ navigation }) {
   useEffect(() => {
     const fetchServicos = async () => {
       try {
-        const response = await api.get("/ser_servicos");
+        const response = await api.get("/ser_servicos?ser_gratuito=false");
         setServicos(response.data);
       } catch (error) {
         console.log("Erro ao buscar servicos: ", error);
@@ -126,9 +138,11 @@ export default function Agendamento({ navigation }) {
   };
 
   const handleSelecionarServico = (id: string) => {
-    setServicoSelecionado((servicoSelecionado) =>
-      servicoSelecionado === id ? null : id
-    );
+    if (!resgatavel) {
+      setServicoSelecionado((servicoSelecionado) =>
+        servicoSelecionado === id ? null : id
+      );
+    }
   };
 
   const handleSelecionarProfissional = (id: string) => {
@@ -140,6 +154,7 @@ export default function Agendamento({ navigation }) {
   const servicoEscolhido = servicos.find(
     (servico) => servico.id === servicoSelecionado
   );
+
   const profissionalEscolhido = profissionais.find(
     (profissional) => profissional.id === profissionalSelecionado
   );
@@ -158,6 +173,7 @@ export default function Agendamento({ navigation }) {
       setMensagemFeedback("Selecione um horário e uma data para prosseguir.");
       return;
     }
+
     const agendamento = {
       cli_id: idCliente,
       pro_id: profissionalSelecionado,
@@ -167,13 +183,55 @@ export default function Agendamento({ navigation }) {
       age_status: false,
     };
 
+    const agendamentoGratuito = {
+      cli_id: idCliente,
+      pro_id: profissionalSelecionado,
+      ser_id: "5", // ID do serviço gratuito conforme seu banco de dados
+      age_data: dataSelecionada,
+      age_hora: horarioSelecionado,
+      age_status: false,
+    };
+
     try {
-      const response = await api.post("/age_agendamentos", agendamento);
+      const response = await api.post(
+        "/age_agendamentos",
+        resgatavel ? agendamentoGratuito : agendamento
+      );
 
       if (response.status === 201) {
-        console.log("Agendamento realizado com sucesso!");
         setTipoFeedback("sucesso");
-        setMensagemFeedback("Agendamento realizado com sucesso.");
+        if (!resgatavel) {
+          setMensagemFeedback("Agendamento realizado com sucesso.");
+        } else {
+          setMensagemFeedback("Agendamento gratuito realizado com sucesso.");
+          console.log(cartaoFidelidade.id);
+          // Após agendar gratuito, atualiza cf_pontos e cf_resgatavel
+          try {
+            const responseCliente = await api.put(
+              `/cf_cartaoFidelidade/${cartaoFidelidade.id}`,
+              {
+                cf_pontos: 0,
+                cf_resgatavel: false,
+              }
+            );
+
+            console.log(responseCliente);
+
+            if (responseCliente.status === 200) {
+              console.log(
+                "Pontos do cliente zerados e resgatável setado para false."
+              );
+            } else {
+              console.error("Erro ao atualizar cartão fidelidade do cliente.");
+            }
+          } catch (error) {
+            console.error(
+              "Erro ao atualizar cartão fidelidade do cliente:",
+              error
+            );
+          }
+        }
+
         setMostrarFeedback(true);
       } else {
         console.error("Erro ao agendar: ", response.data);
@@ -189,10 +247,39 @@ export default function Agendamento({ navigation }) {
     }
   };
 
-  console.log(profissionalSelecionado);
+  useEffect(() => {
+    const buscarCartaoFidelidade = async () => {
+      try {
+        const response = await api.get(
+          `/cf_cartaoFidelidade?cli_id=${idCliente}`
+        );
+        const cartao = response.data[0]; // Supondo que só existe um cartão de fidelidade por cliente
+
+        if (cartao && cartao.cf_resgatavel) {
+          // Se o cartão existe e é resgatável, mostrar a modal
+          setModalAberta(true);
+          setResgatavel(true);
+          // Ajuste para selecionar automaticamente o serviço com ID 5
+          setServicoSelecionado("5");
+        }
+
+        setCartaoFidelidade(cartao); // Atualiza o estado com os dados do cartão
+      } catch (error) {
+        console.error("Erro ao buscar cartão de fidelidade:", error);
+      }
+    };
+
+    buscarCartaoFidelidade();
+  }, []);
 
   return (
     <ScrollView flex={1} p={5} backgroundColor={"#1D1D1D"}>
+      <ModalEstilizada
+        isOpen={modalAberta}
+        onClose={fecharModal}
+        titulo="Resgate disponível"
+        conteudo="Você possui os pontos necessários para resgatar um serviço gratuito com o cartão fidelidade, quer resgatar agora?"
+      />
       {numSecao >= 1 && (
         <VStack
           w={8}
@@ -242,28 +329,38 @@ export default function Agendamento({ navigation }) {
           >
             Escolha seu serviço e profissional!
           </Text>
-          <Text
-            color={"#E29C31"}
-            mt={4}
-            fontSize={24}
-            fontFamily={"NeohellenicBold"}
-          >
-            Serviços
-          </Text>
-          <Text color={"white"} fontSize={18} fontFamily={"NeohellenicRegular"}>
-            Deslize e toque para escolher o serviço.
-          </Text>
+          {!resgatavel ? (
+            <>
+              <Text
+                color={"#E29C31"}
+                mt={4}
+                fontSize={24}
+                fontFamily={"NeohellenicBold"}
+              >
+                Serviços
+              </Text>
+              <Text
+                color={"white"}
+                fontSize={18}
+                fontFamily={"NeohellenicRegular"}
+              >
+                Deslize e toque para escolher o serviço.
+              </Text>
 
-          <Carrossel>
-            {servicos.map((servico) => (
-              <CardServico
-                key={servico.id}
-                servico={servico}
-                onSelecionado={handleSelecionarServico}
-                estaSelecionado={servicoSelecionado === servico.id}
-              />
-            ))}
-          </Carrossel>
+              <Carrossel>
+                {servicos.map((servico) => (
+                  <CardServico
+                    key={servico.id}
+                    servico={servico}
+                    onSelecionado={handleSelecionarServico}
+                    estaSelecionado={servicoSelecionado === servico.id}
+                  />
+                ))}
+              </Carrossel>
+            </>
+          ) : (
+            <></>
+          )}
 
           <Text
             color={"#E29C31"}
@@ -322,6 +419,20 @@ export default function Agendamento({ navigation }) {
                 estaSelecionado={true}
               />
             )}
+
+            {resgatavel && (
+              <CardServico
+                servico={{
+                  id: "5",
+                  ser_icon: "iconTesoura.png",
+                  ser_preco: 0,
+                  ser_tipo: "Corte de cabelo",
+                }}
+                onSelecionado={handleSelecionarServico}
+                estaSelecionado={true}
+              />
+            )}
+
             {profissionalEscolhido && (
               <CardProfissionalHorizontal
                 profissional={profissionalEscolhido}
@@ -425,6 +536,15 @@ export default function Agendamento({ navigation }) {
                   {servicoEscolhido.ser_preco.toFixed(2)}
                 </Text>
               )}
+              {resgatavel && (
+                <Text
+                  color={"white"}
+                  fontSize={18}
+                  fontFamily={"NeohellenicRegular"}
+                >
+                  Corte de cabelo - Gratuito
+                </Text>
+              )}
             </Box>
           </Actionsheet.Item>
 
@@ -460,15 +580,14 @@ export default function Agendamento({ navigation }) {
               >
                 Local do estabelecimento:
               </Text>
-              {servicoEscolhido && (
-                <Text
-                  color={"white"}
-                  fontSize={18}
-                  fontFamily={"NeohellenicRegular"}
-                >
-                  Rua: Benedito Morais N:110 Nova Guara
-                </Text>
-              )}
+
+              <Text
+                color={"white"}
+                fontSize={18}
+                fontFamily={"NeohellenicRegular"}
+              >
+                Rua: Benedito Morais N:110 Nova Guara
+              </Text>
             </Box>
           </Actionsheet.Item>
           <Divider bgColor={"#E29C31"} w={"90%"} />

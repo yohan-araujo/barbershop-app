@@ -49,13 +49,23 @@ export default function CardServico({
           >
             {servico.ser_tipo}
           </Text>
-          <Text
-            color={"white"}
-            textAlign={"center"}
-            fontFamily={"NeohellenicRegular"}
-          >
-            Preço: R${servico.ser_preco.toFixed(2)}
-          </Text>
+          {servico.ser_preco === 0 ? (
+            <Text
+              color={"white"}
+              textAlign={"center"}
+              fontFamily={"NeohellenicRegular"}
+            >
+              Gratuito
+            </Text>
+          ) : (
+            <Text
+              color={"white"}
+              textAlign={"center"}
+              fontFamily={"NeohellenicRegular"}
+            >
+              Preço: R${servico.ser_preco.toFixed(2)}
+            </Text>
+          )}
         </Box>
       </Box>
     </Pressable>

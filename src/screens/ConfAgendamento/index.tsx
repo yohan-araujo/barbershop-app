@@ -87,12 +87,52 @@ export default function ConfAgendamento() {
     );
   };
 
-  const confirmarAgendamentos = async (navigation) => {
+  const confirmarAgendamentos = async () => {
     try {
       for (const agendamentoId of selectedAgendamentos) {
         await api.patch(`/age_agendamentos/${agendamentoId}`, {
           age_status: true,
         });
+
+        const agendamento = agendamentos.find(
+          (age) => age.id === agendamentoId
+        );
+
+        if (agendamento) {
+          const clienteId = agendamento.cli_id;
+          const cartaoFidelidade = await api.get(
+            `/cf_cartaoFidelidade?cli_id=${clienteId}`
+          );
+
+          if (cartaoFidelidade.data.length > 0) {
+            const primeiroCartaoFidelidade = cartaoFidelidade.data[0];
+            const novosPontos = primeiroCartaoFidelidade.cf_pontos + 1;
+
+            // Atualiza os pontos
+            await api.patch(
+              `/cf_cartaoFidelidade/${primeiroCartaoFidelidade.id}`,
+              {
+                cf_pontos: novosPontos,
+              }
+            );
+
+            console.log(novosPontos);
+
+            // Verifica se os pontos atingiram 10 e atualiza cf_resgatavel
+            if (novosPontos >= 10) {
+              await api.patch(
+                `/cf_cartaoFidelidade/${primeiroCartaoFidelidade.id}`,
+                {
+                  cf_resgatavel: true,
+                }
+              );
+            }
+          } else {
+            console.error(
+              `Cartão fidelidade não encontrado para o cliente com ID ${clienteId}`
+            );
+          }
+        }
       }
 
       setAgendamentos((prevAgendamentos) =>

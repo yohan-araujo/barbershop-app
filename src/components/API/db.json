@@ -62,25 +62,36 @@
       "id": "1",
       "ser_tipo": "Corte de Cabelo",
       "ser_preco": 25,
-      "ser_icon": "iconTesoura.png"
+      "ser_icon": "iconTesoura.png",
+      "ser_gratuito": false
     },
     {
       "id": "2",
       "ser_tipo": "Tintura",
       "ser_preco": 80,
-      "ser_icon": "iconPincel.png"
+      "ser_icon": "iconPincel.png",
+      "ser_gratuito": false
     },
     {
       "id": "3",
       "ser_tipo": "Barba",
       "ser_preco": 12,
-      "ser_icon": "iconBigode.png"
+      "ser_icon": "iconBigode.png",
+      "ser_gratuito": false
     },
     {
       "id": "4",
       "ser_tipo": "Sobrancelha",
       "ser_preco": 10,
-      "ser_icon": "iconPinca.png"
+      "ser_icon": "iconPinca.png",
+      "ser_gratuito": false
+    },
+    {
+      "id": "5",
+      "ser_tipo": "Corte de cabelo gratuito",
+      "ser_preco": 0,
+      "ser_icon": "iconTesoura.png",
+      "ser_gratuito": true
     }
   ],
   "age_agendamentos": [
@@ -94,39 +105,38 @@
       "age_status": false
     },
     {
-      "id": "ad5e",
+      "id": "1c4e",
       "cli_id": "add2",
       "pro_id": "1",
-      "ser_id": "1",
-      "age_data": "19-06-2024",
+      "ser_id": "5",
+      "age_data": "29-06-2024",
       "age_hora": "10:00",
-      "age_status": true
-    },
-    {
-      "id": "bc7f",
-      "cli_id": "add2",
-      "pro_id": "1",
-      "ser_id": "1",
-      "age_data": "22-06-2024",
-      "age_hora": "10:30",
       "age_status": false
     },
     {
-      "id": "f439",
+      "id": "7a39",
+      "cli_id": "add2",
+      "pro_id": "1",
+      "ser_id": "5",
+      "age_data": "29-06-2024",
+      "age_hora": "10:00",
+      "age_status": false
+    },
+    {
+      "id": "160b",
       "cli_id": "add2",
       "pro_id": "1",
       "ser_id": "2",
       "age_data": "28-06-2024",
-      "age_hora": "16:00",
-      "age_status": true
+      "age_hora": "10:00",
+      "age_status": false
     }
   ],
   "cf_cartaoFidelidade": [
     {
-      "id": "1",
-      "cli_id": "add2",
-      "cf_pontos": 9,
-      "cf_resgatavel": false
+      "cf_pontos": 0,
+      "cf_resgatavel": false,
+      "id": "1"
     }
   ]
 }

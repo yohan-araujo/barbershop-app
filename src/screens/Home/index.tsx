@@ -56,7 +56,7 @@ export default function Home() {
   useEffect(() => {
     const fetchServicos = async () => {
       try {
-        const response = await api.get("/ser_servicos");
+        const response = await api.get("/ser_servicos?ser_gratuito=false");
         setServicos(response.data);
       } catch (error) {
         console.log("Erro ao buscar servicos: ", error);
