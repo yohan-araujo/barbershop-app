@@ -48,7 +48,7 @@ export default function CartaoFidelidade({
           )}
         </Box>
       ))}
-      {cartaoFidelidade.cf_resgatavel && (
+      {cartaoFidelidade.cf_pontos === 10 && (
         <Text
           color={"#E29C31"}
           fontFamily={"NeohellenicRegular"}
@@ -57,7 +57,7 @@ export default function CartaoFidelidade({
           mt={2}
         >
           {" "}
-          Vá para home para resgatar seu serviço grátis!
+          Vá para o agendamento para resgatar seu serviço grátis!
         </Text>
       )}
     </Box>

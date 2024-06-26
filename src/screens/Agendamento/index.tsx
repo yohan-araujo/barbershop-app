@@ -207,7 +207,7 @@ export default function Agendamento({ navigation }) {
           console.log(cartaoFidelidade.id);
           // Após agendar gratuito, atualiza cf_pontos e cf_resgatavel
           try {
-            const responseCliente = await api.put(
+            const responseCliente = await api.patch(
               `/cf_cartaoFidelidade/${cartaoFidelidade.id}`,
               {
                 cf_pontos: 0,

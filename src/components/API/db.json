@@ -130,13 +130,23 @@
       "age_data": "28-06-2024",
       "age_hora": "10:00",
       "age_status": false
+    },
+    {
+      "id": "981e",
+      "cli_id": "add2",
+      "pro_id": "1",
+      "ser_id": "5",
+      "age_data": "27-06-2024",
+      "age_hora": "10:30",
+      "age_status": false
     }
   ],
   "cf_cartaoFidelidade": [
     {
+      "id": "1",
+      "cli_id": "add2",
       "cf_pontos": 0,
-      "cf_resgatavel": false,
-      "id": "1"
+      "cf_resgatavel": false
     }
   ]
 }
