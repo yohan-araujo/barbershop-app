@@ -20,25 +20,19 @@ export default function MensagemFeedback({
   const iconName = tipo === "erro" ? "alert-circle" : "checkmark-circle";
 
   return (
-    <Center h="16">
+    <Center>
       <Slide in={isOpen} placement="top">
-        <Alert
-          justifyContent="center"
-          safeAreaTop={1}
-          bgColor={bgColor}
-          borderLeftWidth={4}
-          borderColor="white"
-        >
-          <HStack space={1} alignItems="center">
+        <Alert bgColor={bgColor} borderLeftWidth={4} borderColor="white">
+          <HStack space={28} alignItems="center">
             <HStack space={2} alignItems="center">
               <Ionicons name={iconName} size={28} color="white" />
-              <Text color="white" fontFamily="NeohellenicBold" fontSize={12}>
+              <Text color="white" fontFamily="NeohellenicBold" fontSize={20}>
                 {mensagem}
               </Text>
             </HStack>
             <IconButton
               icon={<Ionicons name="close" size={28} color="white" />}
-              onPress={onClose} // Chama a função para fechar a mensagem ao pressionar o botão
+              onPress={onClose}
             />
           </HStack>
         </Alert>

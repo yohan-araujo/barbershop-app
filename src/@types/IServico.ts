@@ -3,4 +3,5 @@ export default interface IServico {
   ser_tipo: string;
   ser_preco: number;
   ser_icon: string;
+  ser_foto: string;
 }

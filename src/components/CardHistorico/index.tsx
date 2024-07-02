@@ -46,7 +46,7 @@ export default function CardHistorico({
         color={ativo ? "black" : "#E29C31"}
         fontFamily={"NeohellenicBold"}
         textTransform={"uppercase"}
-        fontSize={18}
+        fontSize={16}
       >
         {servico ? servico.ser_tipo : "Tipo de Serviço não encontrado"}
       </Text>
@@ -55,7 +55,7 @@ export default function CardHistorico({
         color={ativo ? "black" : "white"}
         fontFamily={"NeohellenicBold"}
         textTransform={"uppercase"}
-        fontSize={18}
+        fontSize={16}
         my={1}
       >
         {usuarioProfissional
@@ -66,7 +66,7 @@ export default function CardHistorico({
       <Text
         color={ativo ? "black" : "gray.300"}
         fontFamily={"NeohellenicBold"}
-        fontSize={18}
+        fontSize={16}
       >
         {agendamento.age_data} | {agendamento.age_hora} Horas
       </Text>

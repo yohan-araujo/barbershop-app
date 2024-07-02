@@ -60,6 +60,7 @@ export default function CardProfissional({
             textAlign={"center"}
             mt={8}
             fontFamily={"NeohellenicBold"}
+            fontSize={16}
           >
             {profissional.usu_nomeCompleto}
           </Text>
@@ -84,7 +85,12 @@ export default function CardProfissional({
                 />
               </Box>
 
-              <Text color={"white"} ml={2} fontFamily={"NeohellenicRegular"}>
+              <Text
+                color={"white"}
+                ml={2}
+                fontFamily={"NeohellenicRegular"}
+                fontSize={12}
+              >
                 Cabelo
               </Text>
             </Box>
@@ -100,7 +106,12 @@ export default function CardProfissional({
                 <Image w={4} h={4} source={IconBigode} alt="icone de bigode" />
               </Box>
 
-              <Text color={"white"} ml={2} fontFamily={"NeohellenicRegular"}>
+              <Text
+                color={"white"}
+                ml={2}
+                fontFamily={"NeohellenicRegular"}
+                fontSize={12}
+              >
                 Barba
               </Text>
             </Box>
@@ -116,7 +127,12 @@ export default function CardProfissional({
                 <Image w={4} h={4} source={IconPinca} alt="icone de pinca" />
               </Box>
 
-              <Text color={"white"} ml={2} fontFamily={"NeohellenicRegular"}>
+              <Text
+                color={"white"}
+                ml={2}
+                fontFamily={"NeohellenicRegular"}
+                fontSize={12}
+              >
                 Sobrancelha
               </Text>
             </Box>
@@ -128,6 +144,7 @@ export default function CardProfissional({
             color={"#E29C31"}
             textAlign={"center"}
             fontFamily={"NeohellenicBold"}
+            fontSize={14}
           >
             Barbeiro
           </Text>

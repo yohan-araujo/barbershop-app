@@ -142,8 +142,10 @@ export default function ConfAgendamento() {
             : agendamento
         )
       );
+
+      setSelectedDate(null);
       setTipoFeedback("sucesso");
-      setMensagemFeedback("Agendamento confirmado com sucesso!");
+      setMensagemFeedback("Agendamento confirmado!");
       setMostrarFeedback(true);
       setSelectedAgendamentos([]);
     } catch (error) {
@@ -229,7 +231,7 @@ export default function ConfAgendamento() {
             </HStack>
           ))
         ) : (
-          <Text color={"white"} mt={4}>
+          <Text color={"white"} mt={4} fontFamily={"NeohellenicRegular"}>
             Nenhum agendamento para esta data.
           </Text>
         )}

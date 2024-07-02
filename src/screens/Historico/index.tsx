@@ -1,4 +1,4 @@
-import { Box, Pressable, Text, VStack } from "native-base";
+import { Box, Pressable, ScrollView, Text, VStack } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import CardHistorico from "../../components/CardHistorico";
 import { useEffect, useState } from "react";
@@ -103,9 +103,9 @@ export default function Historico({ navigation }) {
         Histórico
       </Text>
 
-      <VStack>
+      <ScrollView>
         {agendamentos.map((agendamento) => (
-          <Box my={4} key={agendamento.id}>
+          <Box mt={3} key={agendamento.id}>
             <CardHistorico
               agendamento={agendamento}
               servicos={servicos}
@@ -114,7 +114,7 @@ export default function Historico({ navigation }) {
             />
           </Box>
         ))}
-      </VStack>
+      </ScrollView>
     </VStack>
   );
 }

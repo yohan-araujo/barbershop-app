@@ -10,6 +10,7 @@ import {
   HStack,
   Actionsheet,
   useDisclose,
+  Pressable,
 } from "native-base";
 import { api } from "../../components/API";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -29,6 +30,8 @@ import { format } from "date-fns";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MensagemFeedback from "../../components/MensagemFeedback";
 import ModalEstilizada from "../../components/ModalEstilizada";
+import { ButtonAlternativo } from "../../components/ButtonAlternativo";
+import CardServicoAlternativo from "../../components/CardServicoAlternativo";
 
 export default function Agendamento({ navigation }) {
   const [numSecao, setNumSecao] = useState(0);
@@ -53,6 +56,7 @@ export default function Agendamento({ navigation }) {
   const [cartaoFidelidade, setCartaoFidelidade] = useState(null);
   const [modalAberta, setModalAberta] = useState(false);
   const [resgatavel, setResgatavel] = useState(false);
+  const [fotoUsuario, setFotoUsuario] = useState("");
 
   const abrirModal = () => {
     setModalAberta(true);
@@ -119,9 +123,7 @@ export default function Agendamento({ navigation }) {
   const avancarSecao = () => {
     if (!servicoSelecionado || !profissionalSelecionado) {
       setTipoFeedback("erro");
-      setMensagemFeedback(
-        "Erro ao avançar. Selecione o profissional e o serviço!"
-      );
+      setMensagemFeedback("Selecione o profissional e o serviço!");
       setMostrarFeedback(true);
       return;
     }
@@ -201,10 +203,10 @@ export default function Agendamento({ navigation }) {
       if (response.status === 201) {
         setTipoFeedback("sucesso");
         if (!resgatavel) {
-          setMensagemFeedback("Agendamento realizado com sucesso.");
+          setMensagemFeedback("Agendamento realizado.");
         } else {
-          setMensagemFeedback("Agendamento gratuito realizado com sucesso.");
-          console.log(cartaoFidelidade.id);
+          setMensagemFeedback("Agendamento realizado.");
+          console.log("chegou aqui");
           // Após agendar gratuito, atualiza cf_pontos e cf_resgatavel
           try {
             const responseCliente = await api.patch(
@@ -230,6 +232,7 @@ export default function Agendamento({ navigation }) {
               error
             );
           }
+          navigation.navigate("Perfil");
         }
 
         setMostrarFeedback(true);
@@ -249,6 +252,7 @@ export default function Agendamento({ navigation }) {
 
   useEffect(() => {
     const buscarCartaoFidelidade = async () => {
+      console.log(idCliente);
       try {
         const response = await api.get(
           `/cf_cartaoFidelidade?cli_id=${idCliente}`
@@ -257,7 +261,7 @@ export default function Agendamento({ navigation }) {
 
         if (cartao && cartao.cf_resgatavel) {
           // Se o cartão existe e é resgatável, mostrar a modal
-          setModalAberta(true);
+          abrirModal();
           setResgatavel(true);
           // Ajuste para selecionar automaticamente o serviço com ID 5
           setServicoSelecionado("5");
@@ -270,6 +274,21 @@ export default function Agendamento({ navigation }) {
     };
 
     buscarCartaoFidelidade();
+  }, [idCliente]);
+
+  console.log(cartaoFidelidade);
+
+  useEffect(() => {
+    const fetchFotoUsuario = async () => {
+      try {
+        const foto = await AsyncStorage.getItem("usuarioFoto");
+        setFotoUsuario(foto);
+      } catch (error) {
+        console.error("Erro ao obter a foto do cliente:", error);
+      }
+    };
+
+    fetchFotoUsuario();
   }, []);
 
   return (
@@ -302,7 +321,7 @@ export default function Agendamento({ navigation }) {
       {numSecao === 0 && (
         <>
           <HStack flexDirection={"row"} mt={4}>
-            <Box mt={2}>
+            <Box>
               <Text
                 color={"#E29C31"}
                 fontSize={28}
@@ -311,30 +330,28 @@ export default function Agendamento({ navigation }) {
               >
                 Agendamento
               </Text>
+              <Text
+                color={"white"}
+                fontSize={18}
+                fontFamily={"NeohellenicRegular"}
+              >
+                Escolha seu serviço e profissional!
+              </Text>
             </Box>
             <Spacer />
             <Box>
-              <Avatar
-                source={{ uri: "https://github.com/yohan-araujo.png" }}
-                size={"lg"}
-              />
+              <Avatar source={{ uri: fotoUsuario }} size={"lg"} />
             </Box>
           </HStack>
+
           <Divider mt={15} />
-          <Text
-            color={"white"}
-            mt={2}
-            fontSize={18}
-            fontFamily={"NeohellenicRegular"}
-          >
-            Escolha seu serviço e profissional!
-          </Text>
+
           {!resgatavel ? (
             <>
               <Text
                 color={"#E29C31"}
                 mt={4}
-                fontSize={24}
+                fontSize={22}
                 fontFamily={"NeohellenicBold"}
               >
                 Serviços
@@ -344,7 +361,7 @@ export default function Agendamento({ navigation }) {
                 fontSize={18}
                 fontFamily={"NeohellenicRegular"}
               >
-                Deslize e toque para escolher o serviço.
+                Arraste para o lado e clique para selecionar o serviço!
               </Text>
 
               <Carrossel>
@@ -365,29 +382,26 @@ export default function Agendamento({ navigation }) {
           <Text
             color={"#E29C31"}
             mt={4}
-            fontSize={24}
+            fontSize={22}
             fontFamily={"NeohellenicBold"}
           >
             Profissionais
           </Text>
           <Text color={"white"} fontSize={18} fontFamily={"NeohellenicRegular"}>
-            Deslize e toque para escolher o profissional.
+            Arraste para o lado e clique para selecionar o profissional!
           </Text>
 
-          <Box h={96}>
-            <Carrossel>
-              {profissionais.map((profissional) => (
-                <CardProfissional
-                  key={profissional.id}
-                  profissional={profissional}
-                  onSelecionado={handleSelecionarProfissional}
-                  estaSelecionado={profissionalSelecionado === profissional.id}
-                />
-              ))}
-            </Carrossel>
-          </Box>
-
-          <Center>
+          <Carrossel>
+            {profissionais.map((profissional) => (
+              <CardProfissional
+                key={profissional.id}
+                profissional={profissional}
+                onSelecionado={handleSelecionarProfissional}
+                estaSelecionado={profissionalSelecionado === profissional.id}
+              />
+            ))}
+          </Carrossel>
+          <Center mt={8}>
             <ButtonEstilizado
               texto="Próximo"
               mb={32}
@@ -403,36 +417,15 @@ export default function Agendamento({ navigation }) {
           <Text
             color={"#E29C31"}
             mt={4}
-            fontSize={24}
+            fontSize={22}
             fontFamily={"NeohellenicBold"}
           >
             Suas escolhas:
           </Text>
           <Text color={"white"} fontSize={18} fontFamily={"NeohellenicRegular"}>
-            Escolhas feitas anteriormente
+            Caso queira mudar clique em editar.
           </Text>
           <HStack justifyContent={"center"} alignItems={"center"} space={3}>
-            {servicoEscolhido && (
-              <CardServico
-                servico={servicoEscolhido}
-                onSelecionado={handleSelecionarServico}
-                estaSelecionado={true}
-              />
-            )}
-
-            {resgatavel && (
-              <CardServico
-                servico={{
-                  id: "5",
-                  ser_icon: "iconTesoura.png",
-                  ser_preco: 0,
-                  ser_tipo: "Corte de cabelo",
-                }}
-                onSelecionado={handleSelecionarServico}
-                estaSelecionado={true}
-              />
-            )}
-
             {profissionalEscolhido && (
               <CardProfissionalHorizontal
                 profissional={profissionalEscolhido}
@@ -440,11 +433,45 @@ export default function Agendamento({ navigation }) {
                 estaSelecionado={true}
               />
             )}
+
+            {servicoEscolhido && (
+              <CardServicoAlternativo
+                servico={servicoEscolhido}
+                onSelecionado={handleSelecionarServico}
+                estaSelecionado={true}
+              />
+            )}
+
+            {resgatavel && (
+              <CardServicoAlternativo
+                servico={{
+                  id: "5",
+                  ser_icon: "iconTesoura.png",
+                  ser_preco: 0,
+                  ser_tipo: "Corte de cabelo",
+                  ser_foto: "corteDeCabelo.jpg",
+                }}
+                onSelecionado={handleSelecionarServico}
+                estaSelecionado={true}
+              />
+            )}
           </HStack>
+
+          <Pressable onPress={() => voltarSecao()} mt={4} mr={3}>
+            <Text
+              color={"white"}
+              fontFamily={"NeohellenicRegular"}
+              fontSize={16}
+              underline
+              alignSelf={"flex-end"}
+            >
+              Editar
+            </Text>
+          </Pressable>
           <Text
             color={"#E29C31"}
-            mt={8}
-            fontSize={24}
+            mt={4}
+            fontSize={22}
             fontFamily={"NeohellenicBold"}
           >
             Escolha o dia:
@@ -459,7 +486,7 @@ export default function Agendamento({ navigation }) {
           <Text
             color={"#E29C31"}
             mt={8}
-            fontSize={24}
+            fontSize={22}
             fontFamily={"NeohellenicBold"}
           >
             Escolha o horário:
@@ -494,7 +521,7 @@ export default function Agendamento({ navigation }) {
           borderBottomWidth={0}
           p={8}
         >
-          <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={24}>
+          <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={22}>
             Confirme seu agendamento:{" "}
           </Text>
           <Actionsheet.Item bgColor={"#1d1d1d"}>
@@ -502,9 +529,9 @@ export default function Agendamento({ navigation }) {
               <Text
                 color={"#E29C31"}
                 fontFamily={"NeohellenicBold"}
-                fontSize={21}
+                fontSize={18}
               >
-                Dia e hora selecionados:{" "}
+                Dia e hora selecionados:
               </Text>
               <Text
                 color={"white"}
@@ -522,7 +549,7 @@ export default function Agendamento({ navigation }) {
               <Text
                 color={"#E29C31"}
                 fontFamily={"NeohellenicBold"}
-                fontSize={21}
+                fontSize={18}
               >
                 Serviço selecionado:
               </Text>
@@ -554,7 +581,7 @@ export default function Agendamento({ navigation }) {
               <Text
                 color={"#E29C31"}
                 fontFamily={"NeohellenicBold"}
-                fontSize={21}
+                fontSize={18}
               >
                 Profissional selecionado:
               </Text>
@@ -576,7 +603,7 @@ export default function Agendamento({ navigation }) {
               <Text
                 color={"#E29C31"}
                 fontFamily={"NeohellenicBold"}
-                fontSize={21}
+                fontSize={18}
               >
                 Local do estabelecimento:
               </Text>
@@ -586,13 +613,13 @@ export default function Agendamento({ navigation }) {
                 fontSize={18}
                 fontFamily={"NeohellenicRegular"}
               >
-                Rua: Benedito Morais N:110 Nova Guara
+                Rua: Benedito Morais N:110 Nova Guará
               </Text>
             </Box>
           </Actionsheet.Item>
           <Divider bgColor={"#E29C31"} w={"90%"} />
           <ButtonEstilizado texto="Confirmar" mt={6} onPress={agendar} />
-          <ButtonEstilizado texto="Voltar" mt={3} onPress={onClose} />
+          <ButtonAlternativo texto="Voltar" mt={3} onPress={onClose} />
         </Actionsheet.Content>
       </Actionsheet>
       {mostrarFeedback && (

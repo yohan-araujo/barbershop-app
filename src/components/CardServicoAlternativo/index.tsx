@@ -16,7 +16,7 @@ const images: { [key: string]: any } = {
   "corteDeCabeloGratuito.jpg": require("../../assets/images/servicos/corteDeCabeloGratuito.jpg"),
 };
 
-export default function CardServico({
+export default function CardServicoAlternativo({
   servico,
   estaSelecionado,
   onSelecionado,
@@ -37,7 +37,6 @@ export default function CardServico({
         justifyContent={"center"}
         key={servico.id}
         borderWidth={3}
-        borderColor={estaSelecionado ? "white" : "black"}
       >
         <Image
           mt={1}
@@ -59,17 +58,17 @@ export default function CardServico({
           </Text>
           {servico.ser_preco === 0 ? (
             <Text
-              color={"white"}
+              color={"#E29C31"}
               textAlign={"center"}
-              fontFamily={"NeohellenicRegular"}
+              fontFamily={"NeohellenicBold"}
             >
               Gratuito
             </Text>
           ) : (
             <Text
-              color={"white"}
+              color={"#E29C31"}
               textAlign={"center"}
-              fontFamily={"NeohellenicRegular"}
+              fontFamily={"NeohellenicBold"}
               fontSize={16}
             >
               Preço: R${servico.ser_preco.toFixed(2)}

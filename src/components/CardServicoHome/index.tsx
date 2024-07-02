@@ -93,7 +93,7 @@ export default function CardServicoHome({
                 textTransform={"uppercase"}
                 fontFamily={"NeohellenicBold"}
                 color={"#E29C31"}
-                fontSize={22}
+                fontSize={34}
               >
                 {servico.ser_tipo}
               </Text>
@@ -102,7 +102,7 @@ export default function CardServicoHome({
                 color={"white"}
                 fontSize={18}
               >
-                Servico efetuado com profissionalismo
+                Serviço efetuado com profissionalismo!
               </Text>
             </VStack>
           </Actionsheet.Item>
@@ -145,7 +145,7 @@ export default function CardServicoHome({
                   <Avatar source={{ uri: profissional.usu_foto }} />
                   <VStack>
                     <Text
-                      fontFamily={"NeohellenicRegular"}
+                      fontFamily={"NeohellenicBold"}
                       color={"#E29C31"}
                       fontSize={18}
                     >

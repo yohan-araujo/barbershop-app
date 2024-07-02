@@ -84,18 +84,16 @@ export default function Login({ navigation }) {
       } else {
         // Define a mensagem de erro
         setTipoFeedback("erro");
-        setMensagemFeedback(
-          "Credenciais inválidas. Por favor, tente novamente."
-        );
+        setMensagemFeedback("E-mail ou senha inválidas.");
         setMostrarFeedback(true);
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      console.log("Erro ao fazer login. Por favor, tente novamente.");
+      console.log("Erro ao fazer login.");
 
       // Define a mensagem de erro
       setTipoFeedback("erro");
-      setMensagemFeedback("Erro ao fazer login. Por favor, tente novamente.");
+      setMensagemFeedback("Erro ao fazer login.");
       setMostrarFeedback(true);
     }
   };
@@ -119,7 +117,7 @@ export default function Login({ navigation }) {
         <Box justifyContent={"center"} alignItems={"center"}>
           <Text
             color={"white"}
-            fontSize={"2xl"}
+            fontSize={18}
             textAlign={"center"}
             mt={24}
             fontFamily={"Amithen"}
@@ -131,7 +129,7 @@ export default function Login({ navigation }) {
 
           <Text
             color={"white"}
-            fontSize={"54"}
+            fontSize={54}
             textAlign={"center"}
             fontFamily={"Amithen"}
           >
@@ -143,7 +141,7 @@ export default function Login({ navigation }) {
             <InputEstilizado
               placeholder="E-mail"
               mt={4}
-              fontSize={20}
+              fontSize={18}
               value={usu_email}
               onChangeText={setUsu_email}
             />
@@ -151,7 +149,7 @@ export default function Login({ navigation }) {
               placeholder="Senha"
               tipo="password"
               mt={4}
-              fontSize={20}
+              fontSize={18}
               value={usu_senha}
               onChangeText={setUsu_senha}
             />
@@ -182,7 +180,6 @@ export default function Login({ navigation }) {
               fontFamily={"NeohellenicRegular"}
               fontSize={18}
             >
-              {" "}
               senha?
             </Text>
           </TouchableOpacity>
@@ -207,7 +204,6 @@ export default function Login({ navigation }) {
               fontFamily={"NeohellenicRegular"}
               fontSize={18}
             >
-              {" "}
               Cadastrar
             </Text>
           </TouchableOpacity>

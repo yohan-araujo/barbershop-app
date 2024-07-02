@@ -93,12 +93,12 @@ export default function Home() {
     <ScrollView flex={1} p={5} backgroundColor={"#1D1D1D"}>
       <HStack>
         <Box>
-          <Text color="white" fontSize={20} fontFamily={"NeohellenicRegular"}>
+          <Text color="white" fontSize={22} fontFamily={"NeohellenicRegular"}>
             Bem vindo de volta,
           </Text>
-          <Text color={"#E29C31"} fontSize={20} fontFamily={"NeohellenicBold"}>
+          <Text color={"#E29C31"} fontSize={22} fontFamily={"NeohellenicBold"}>
             {nomeUsuario}
-            <Text color="white" fontSize={20} fontFamily={"NeohellenicRegular"}>
+            <Text color="white" fontSize={22} fontFamily={"NeohellenicRegular"}>
               !
             </Text>
           </Text>
@@ -109,7 +109,7 @@ export default function Home() {
         </Box>
       </HStack>
 
-      <Divider mt={15} />
+      <Divider mt={15} opacity={40} />
       <Box
         backgroundColor={"black"}
         h={125}

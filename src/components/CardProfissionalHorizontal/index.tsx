@@ -29,14 +29,14 @@ export default function CardProfissionalHorizontal({
         justifyContent={"center"}
         key={profissional.id}
         borderWidth={2}
-        borderColor={estaSelecionado ? "#E29C31" : "black"}
       >
         <Image
           h={100}
-          source={{ uri: "https://picsum.photos/150" }}
-          borderTopLeftRadius={"2xl"}
-          borderTopRightRadius={"2xl"}
+          source={{ uri: profissional.usu_foto }}
+          borderTopLeftRadius={"xl"}
+          borderTopRightRadius={"xl"}
           alt={"servicos"}
+          mt={1}
         />
         <Box h={75}>
           <Text
@@ -44,7 +44,7 @@ export default function CardProfissionalHorizontal({
             textAlign={"center"}
             mt={3}
             fontFamily={"NeohellenicBold"}
-            fontSize={18}
+            fontSize={16}
           >
             {profissional.usu_nomeCompleto}
           </Text>
@@ -52,6 +52,7 @@ export default function CardProfissionalHorizontal({
             color={"#E29C31"}
             textAlign={"center"}
             fontFamily={"NeohellenicBold"}
+            fontSize={16}
           >
             Barbeiro
           </Text>

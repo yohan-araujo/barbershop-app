@@ -82,7 +82,7 @@ export default function Cadastro({ navigation }) {
   return (
     <ScrollView flex={1} bg={"#1D1D1D"}>
       <Text
-        fontSize={36}
+        fontSize={54}
         color={"#E29C31"}
         textAlign={"center"}
         mt={5}
@@ -93,18 +93,19 @@ export default function Cadastro({ navigation }) {
       </Text>
       <FormControl mt={4} alignItems={"center"}>
         <Box>
-          <Text color={"white"} fontSize={16} fontFamily={"NeohellenicBold"}>
-            Nome
+          <Text color={"white"} fontSize={18} fontFamily={"NeohellenicBold"}>
+            Nome completo
           </Text>
           <InputOutline
             placeholder="Insira seu nome completo..."
             mt={3}
             value={usu_nomeCompleto}
             onChangeText={setUsu_nomeCompleto}
+            fontSize={18}
           />
         </Box>
         <Box mt={4}>
-          <Text color={"white"} fontSize={16} fontFamily={"NeohellenicBold"}>
+          <Text color={"white"} fontSize={18} fontFamily={"NeohellenicBold"}>
             Email
           </Text>
           <InputOutline
@@ -112,10 +113,11 @@ export default function Cadastro({ navigation }) {
             mt={3}
             value={usu_email}
             onChangeText={setUsu_email}
+            fontSize={18}
           />
         </Box>
         <Box mt={4}>
-          <Text color={"white"} fontSize={16} fontFamily={"NeohellenicBold"}>
+          <Text color={"white"} fontSize={18} fontFamily={"NeohellenicBold"}>
             URL da foto
           </Text>
           <InputOutline
@@ -123,10 +125,11 @@ export default function Cadastro({ navigation }) {
             mt={3}
             value={usu_foto}
             onChangeText={setUsu_foto}
+            fontSize={18}
           />
         </Box>
         <Box mt={4}>
-          <Text color={"white"} fontSize={16} fontFamily={"NeohellenicBold"}>
+          <Text color={"white"} fontSize={18} fontFamily={"NeohellenicBold"}>
             Telefone
           </Text>
           <InputOutline
@@ -134,10 +137,11 @@ export default function Cadastro({ navigation }) {
             mt={3}
             value={cli_telefone}
             onChangeText={setCli_telefone}
+            fontSize={18}
           />
         </Box>
         <Box mt={4}>
-          <Text color={"white"} fontSize={16} fontFamily={"NeohellenicBold"}>
+          <Text color={"white"} fontSize={18} fontFamily={"NeohellenicBold"}>
             Senha
           </Text>
           <InputOutline
@@ -146,10 +150,11 @@ export default function Cadastro({ navigation }) {
             tipo="password"
             value={usu_senha}
             onChangeText={setUsu_senha}
+            fontSize={18}
           />
         </Box>
         <Box mt={4}>
-          <Text color={"white"} fontSize={16} fontFamily={"NeohellenicBold"}>
+          <Text color={"white"} fontSize={18} fontFamily={"NeohellenicBold"}>
             Confirmar Senha
           </Text>
           <InputOutline
@@ -158,6 +163,7 @@ export default function Cadastro({ navigation }) {
             tipo="password"
             value={confirmarSenha}
             onChangeText={setConfirmarSenha}
+            fontSize={18}
           />
         </Box>
       </FormControl>
@@ -171,7 +177,12 @@ export default function Cadastro({ navigation }) {
         mt={6}
         mb={12}
       >
-        <Text color={"white"} underline fontFamily={"NeohellenicRegular"}>
+        <Text
+          color={"white"}
+          underline
+          fontFamily={"NeohellenicRegular"}
+          fontSize={18}
+        >
           Já possui conta?{" "}
         </Text>
         <TouchableOpacity
@@ -183,6 +194,7 @@ export default function Cadastro({ navigation }) {
             color={"yellow.500"}
             underline
             fontFamily={"NeohellenicRegular"}
+            fontSize={18}
           >
             {" "}
             Entrar

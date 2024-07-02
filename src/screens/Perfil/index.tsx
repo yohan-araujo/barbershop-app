@@ -20,6 +20,7 @@ import IProfissional from "../../@types/IProfissional";
 import IUsuario from "../../@types/IUsuario";
 import { api } from "../../components/API";
 import ICartaoFidelidade from "../../@types/ICartaoFidelidade";
+import IconButton from "../../components/IconButton";
 
 export default function Perfil({ navigation }) {
   const [nomeUsuario, setNomeUsuario] = useState("");
@@ -76,6 +77,7 @@ export default function Perfil({ navigation }) {
       try {
         const id = await AsyncStorage.getItem("clienteId");
         setClienteId(id);
+        console.log(id);
         if (id) {
           fetchAgendamentos(id);
           fetchCartaoFidelidade(id);
@@ -141,7 +143,7 @@ export default function Perfil({ navigation }) {
     };
 
     fetchClienteId();
-  }, []);
+  }, [clienteId]);
 
   return (
     <ScrollView flex={1} bg={"#1D1D1D"}>
@@ -167,7 +169,7 @@ export default function Perfil({ navigation }) {
       <VStack justifyContent={"center"} alignItems={"center"} mt={8}>
         <Text
           color={"#E29C31"}
-          fontSize={32}
+          fontSize={28}
           textTransform={"uppercase"}
           fontFamily={"NeohellenicBold"}
           textAlign={"center"}
@@ -178,14 +180,19 @@ export default function Perfil({ navigation }) {
 
       {tipoUsuario === "C" ? (
         <VStack p={5}>
-          <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={22}>
+          <Text
+            color={"#E29C31"}
+            fontFamily={"NeohellenicBold"}
+            fontSize={24}
+            ml={3}
+          >
             Horários ativos:
           </Text>
 
-          <VStack mt={5} justifyContent={"center"} p={2}>
+          <VStack mt={3} justifyContent={"center"} p={2}>
             <VStack>
               {agendamentos.map((agendamento) => (
-                <Box my={4} key={agendamento.id}>
+                <Box mt={2} key={agendamento.id}>
                   <CardHistorico
                     agendamento={agendamento}
                     servicos={servicos}
@@ -201,8 +208,10 @@ export default function Perfil({ navigation }) {
             <Text
               color={"white"}
               fontFamily={"NeohellenicRegular"}
-              fontSize={16}
+              fontSize={14}
               underline
+              alignSelf={"flex-end"}
+              mr={6}
             >
               Ver histórico...
             </Text>
@@ -224,19 +233,49 @@ export default function Perfil({ navigation }) {
             Com dez serviços concluídos você pode resgatar um corte de cabelo
             grátis!
           </Text>
-          <Box mt={4} mb={24}>
+          <Box mt={4}>
             {cartaoFidelidade && (
               <CartaoFidelidade cartaoFidelidade={cartaoFidelidade} />
             )}
+          </Box>
+
+          <Box mb={24} mt={12}>
+            <IconButton
+              nomeIcon="exit-outline"
+              onPress={() => navigation.navigate("Login")}
+              texto="Sair"
+            />
           </Box>
         </VStack>
       ) : (
         <VStack p={5}>
           <Text color={"#E29C31"} fontFamily={"NeohellenicBold"} fontSize={24}>
-            Agenda
+            Calendário
           </Text>
           <Box mt={4}>
             <Calendario />
+          </Box>
+          <Pressable
+            onPress={() => navigation.navigate("ConfAgendamento")}
+            mt={4}
+          >
+            <Text
+              color={"white"}
+              fontFamily={"NeohellenicRegular"}
+              fontSize={14}
+              underline
+              alignSelf={"flex-end"}
+            >
+              Ver agenda...
+            </Text>
+          </Pressable>
+
+          <Box mb={24} mt={12}>
+            <IconButton
+              nomeIcon="exit-outline"
+              onPress={() => navigation.navigate("Login")}
+              texto="Sair"
+            />
           </Box>
         </VStack>
       )}
